@@ -16,7 +16,7 @@ function Model() {
 
 export default function Scene() {
   return (
-    <div className="h-[50vh] w-full bg-gradient-to-b from-[#2D2920] to-[#3E482A]">
+    <div className="h-[50vh] w-full bg-gradient-to-b from-primary-dark to-primary">
       <Canvas
         camera={{ position: [5, 2, 5] }}
       >
