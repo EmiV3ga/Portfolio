@@ -1,15 +1,15 @@
 export const lightTheme = {
-  primary: '#12372A',       // Verde oscuro (Primary)
-  secondary: '#436850',    // Verde medio (Secondary)
-  background: '#FBFADA',   // Amarillo claro (Background)
-  text: '#12372A',         // Verde oscuro (Text)
-  accent: '#ADBC9F',       // Verde claro (Accent)
+  primary: '#3A4D39',       // Verde oscuro (Primary)
+  secondary: '#4F6F52',     // Verde medio (Secondary)
+  background: '#ECE3CE',    // Beige claro (Background)
+  text: '#3A4D39',          // Verde oscuro (Text)
+  accent: '#739072',        // Verde suave (Accent)
 };
 
 export const darkTheme = {
-  primary: '#12372A',      // Verde oscuro (Primary)
-  secondary: '#436850',    // Verde medio (Secondary)
-  background: '#12372A',   // Verde oscuro (Background)
-  text: '#FBFADA',         // Amarillo claro (Text)
-  accent: '#ADBC9F',       // Verde claro (Accent)
+  primary: '#ECE3CE',       // Beige claro (Primary)
+  secondary: '#739072',     // Verde suave (Secondary)
+  background: '#3A4D39',    // Verde oscuro (Background)
+  text: '#ECE3CE',          // Beige claro (Text)
+  accent: '#4F6F52',        // Verde medio (Accent)
 };

@@ -12,9 +12,9 @@ const Contact = () => {
         </div>
 
         {/* Tarjeta de contacto */}
-        <div className="bg-background dark:bg-background-dark p-8 rounded-lg relative h-96">
-          {/* Email (esquina superior izquierda) */}
-          <div className="absolute top-8 left-8">
+        <div className="bg-background dark:bg-background-dark p-8 rounded-lg">
+          <div className="space-y-6">
+            {/* Email */}
             <div className="flex items-center space-x-4">
               <Mail className="text-primary dark:text-primary-dark" size={28} />
               <div>
@@ -27,10 +27,8 @@ const Contact = () => {
                 </a>
               </div>
             </div>
-          </div>
 
-          {/* LinkedIn (esquina superior derecha) */}
-          <div className="absolute top-8 right-8">
+            {/* LinkedIn */}
             <div className="flex items-center space-x-4">
               <Linkedin className="text-primary dark:text-primary-dark" size={28} />
               <div>
@@ -43,10 +41,8 @@ const Contact = () => {
                 </a>
               </div>
             </div>
-          </div>
 
-          {/* GitHub (esquina inferior izquierda) */}
-          <div className="absolute bottom-8 left-8">
+            {/* GitHub */}
             <div className="flex items-center space-x-4">
               <Github className="text-primary dark:text-primary-dark" size={28} />
               <div>
@@ -59,10 +55,8 @@ const Contact = () => {
                 </a>
               </div>
             </div>
-          </div>
 
-          {/* Teléfono (esquina inferior derecha) */}
-          <div className="absolute bottom-8 right-8">
+            {/* Teléfono */}
             <div className="flex items-center space-x-4">
               <Phone className="text-primary dark:text-primary-dark" size={28} />
               <div>
