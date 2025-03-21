@@ -18,12 +18,16 @@ export default function Scene() {
   return (
     <div className="h-[50vh] w-full bg-gradient-to-b from-primary-dark to-primary">
       <Canvas
-        camera={{ position: [5, 2, 5] }}
+        camera={{ position: [5, 2, 5], fov: 50 }} // Ajusta el campo de visión (fov) para controlar el zoom inicial
       >
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} />
         <Model />
-        <OrbitControls enableZoom={false} />
+        <OrbitControls
+          enableZoom={true} // Habilita el zoom con la rueda del mouse
+          minDistance={3}  // Distancia mínima de la cámara al objeto
+          maxDistance={10} // Distancia máxima de la cámara al objeto
+        />
       </Canvas>
     </div>
   );
