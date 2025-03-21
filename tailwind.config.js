@@ -5,11 +5,25 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#69573B', // Color principal (marrón)
-          light: '#79804D',   // Color secundario (verde oliva)
-          dark: '#3E482A',    // Color oscuro (verde oscuro)
+          DEFAULT: '#12372A', // Verde oscuro
+          dark: '#12372A',    // Verde oscuro (modo oscuro)
         },
-        secondary: '#2D2920', // Color de fondo oscuro (casi negro)
+        secondary: {
+          DEFAULT: '#436850', // Verde medio
+          dark: '#436850',    // Verde medio (modo oscuro)
+        },
+        background: {
+          DEFAULT: '#FBFADA', // Amarillo claro (modo claro)
+          dark: '#12372A',    // Verde oscuro (modo oscuro)
+        },
+        text: {
+          DEFAULT: '#12372A', // Verde oscuro (modo claro)
+          dark: '#FBFADA',    // Amarillo claro (modo oscuro)
+        },
+        accent: {
+          DEFAULT: '#ADBC9F', // Verde claro
+          dark: '#ADBC9F',    // Verde claro (modo oscuro)
+        },
       },
     },
   },
