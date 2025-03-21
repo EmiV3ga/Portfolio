@@ -8,7 +8,7 @@ const Layout = () => {
   const { theme } = useTheme();
 
   return (
-    <div className={`min-h-screen ${theme === 'dark' ? 'dark bg-secondary' : 'bg-primary-light'}`}>
+    <div className={`min-h-screen ${theme === 'dark' ? 'dark bg-background-dark' : 'bg-background'}`}>
       <Navigation />
       <main className="container mx-auto px-4 py-8">
         <Outlet />
