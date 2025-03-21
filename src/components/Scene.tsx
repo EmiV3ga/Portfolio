@@ -5,7 +5,7 @@ import * as THREE from 'three';
 
 function Model() {
   const gltf = useGLTF('https://threejs.org/examples/models/gltf/LittlestTokyo.glb');
-  const mixer = useRef();
+  const mixer = useRef(); 
 
   useFrame((state, delta) => {
     mixer.current?.update(delta);
