@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF, OrbitControls, useAnimations } from '@react-three/drei';
 
 function Model() {
@@ -14,12 +14,19 @@ function Model() {
     }
   }, [actions]);
 
+  // Agregar rotación continua
+  useFrame((state, delta) => {
+    if (group.current) {
+      group.current.rotation.y += 0.005; // Rota el modelo en el eje Y
+    }
+  });
+
   return (
     <primitive
       ref={group}
       object={scene}
       scale={0.01}
-      position={[0, 1, 0]} // Ajusta la posición del modelo
+      position={[0, 0.5, 0]} // Ajusta la posición del modelo
     />
   );
 }
@@ -28,10 +35,10 @@ export default function Scene() {
   return (
     <div className="h-[50vh] w-full bg-gradient-to-b from-primary-dark to-primary">
       <Canvas
-        camera={{ position: [5, 2, 5], fov: 50 }}
+        camera={{ position: [2, 2, 5], fov: 50 }} // Ajusta la posición de la cámara
       >
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} />
+        <ambientLight intensity={0.8} /> {/* Luz ambiental suave */}
+        <pointLight position={[5, 5, 5]} intensity={0.5} /> {/* Luz puntual tenue */}
         <Model />
         <OrbitControls
           enableZoom={true}
