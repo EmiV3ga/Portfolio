@@ -23,7 +23,7 @@ const projects = [
 const Projects = () => {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8 text-primary-dark dark:text-primary-light">My Projects</h1>
+      <h1 className="text-4xl font-bold mb-8 text-primary dark:text-primary-light">My Projects</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {projects.map((project, index) => (
           <div key={index} className="bg-white dark:bg-secondary rounded-lg shadow-lg overflow-hidden">
@@ -43,7 +43,7 @@ const Projects = () => {
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center text-primary hover:text-primary-dark dark:text-primary-light"
+                  className="flex items-center text-primary hover:text-primary-dark dark:text-accent dark:hover:text-accent/80"
                 >
                   <Github className="mr-2" size={20} />
                   GitHub
@@ -52,7 +52,7 @@ const Projects = () => {
                   href={project.demo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center text-primary hover:text-primary-dark dark:text-primary-light"
+                  className="flex items-center text-primary hover:text-primary-dark dark:text-accent dark:hover:text-accent/80"
                 >
                   <ExternalLink className="mr-2" size={20} />
                   Live Demo
