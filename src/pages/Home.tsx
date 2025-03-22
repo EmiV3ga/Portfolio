@@ -1,5 +1,6 @@
 import React from 'react';
 import Scene from '../components/Scene';
+import Footer from '../components/Footer'; // Importa el componente Footer
 
 const Home = () => {
   return (
@@ -12,6 +13,9 @@ const Home = () => {
         </p>
       </div>
       {/* Add more sections as needed */}
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
