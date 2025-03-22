@@ -26,7 +26,7 @@ function Model() {
       ref={group}
       object={scene}
       scale={0.01} // Escala más grande
-      position={[0, 1, 0]} // Ajusta la posición del modelo (más abajo)
+      position={[0, -0,5, 0]} // Ajusta la posición del modelo (más abajo)
     />
   );
 }
