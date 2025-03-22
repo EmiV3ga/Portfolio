@@ -12,7 +12,7 @@ const Home = () => {
       </div>
 
       {/* Contenedor para la tarjeta del título principal */}
-      <div className="max-w-4xl mx-auto px-4 py-8"> {/* Padding para separar del render 3D */}
+      <div className="max-w-4xl mx-auto px-4 py-4"> {/* Padding reducido (py-4 en lugar de py-8) */}
         <div className="bg-[#8EB69B] dark:bg-[#163832] p-6 rounded-lg shadow-lg"> {/* Tarjeta con esquinas redondeadas */}
           <div className="text-center">
             <h1 className="text-4xl font-bold mb-4 text-[#0B2B26] dark:text-[#DAF1DE]">Emiliano Vega</h1>
