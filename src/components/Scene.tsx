@@ -33,8 +33,11 @@ function Model() {
 
 export default function Scene() {
   return (
-    <div className="h-[50vh] w-full bg-gradient-to-b from-primary-dark to-primary">
+    <div className="h-[50vh] w-full">
       <Canvas
+        style={{
+          background: 'linear-gradient(to bottom, #0B2B26, #163832, #235347, #8EB69B, #DAF1DE)', // Degradado con múltiples colores
+        }}
         camera={{ position: [2, 2, 5], fov: 50 }} // Ajusta la posición de la cámara
       >
         <ambientLight intensity={0.8} /> {/* Luz ambiental suave */}
