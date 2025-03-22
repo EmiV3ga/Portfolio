@@ -25,8 +25,8 @@ function Model() {
     <primitive
       ref={group}
       object={scene}
-      scale={0.01}
-      position={[0, 0.5, 0]} // Ajusta la posición del modelo
+      scale={0.02} // Escala más grande (ajustada)
+      position={[0, 0, 0]} // Centrado en la escena (ajustado)
     />
   );
 }
@@ -36,12 +36,12 @@ export default function Scene() {
     <div className="h-[50vh] w-full">
       <Canvas
         style={{
-          background: 'linear-gradient(to bottom, #0B2B26, #163832, #235347, #8EB69B, #DAF1DE)', // Degradado con múltiples colores
+          background: 'linear-gradient(45deg, #0B2B26, #163832, #235347, #8EB69B, #DAF1DE)', // Degradado con ángulo de 45° (ajustado)
         }}
         camera={{ position: [2, 2, 5], fov: 50 }} // Ajusta la posición de la cámara
       >
-        <ambientLight intensity={0.8} /> {/* Luz ambiental suave */}
-        <pointLight position={[5, 5, 5]} intensity={0.5} /> {/* Luz puntual tenue */}
+        <ambientLight intensity={1.0} /> {/* Más luz ambiental (ajustada) */}
+        <pointLight position={[5, 5, 5]} intensity={1.0} /> {/* Más luz puntual (ajustada) */}
         <Model />
         <OrbitControls
           enableZoom={true}
