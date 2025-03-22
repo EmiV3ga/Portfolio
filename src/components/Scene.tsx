@@ -33,7 +33,7 @@ function Model() {
 
 export default function Scene() {
   return (
-    <div className="h-[100vh] w-full"> {/* Altura completa de la pantalla */}
+    <div className="h-[80vh] w-%80"> {/* Altura completa de la pantalla */}
       <Canvas
         style={{
           background: 'linear-gradient(45deg, #0B2B26, #163832, #235347, #8EB69B, #DAF1DE)', // Degradado con ángulo de 45°
