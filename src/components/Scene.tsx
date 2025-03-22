@@ -17,7 +17,7 @@ function Model() {
   // Agregar rotación continua
   useFrame((state, delta) => {
     if (group.current) {
-      group.current.rotation.y += 0.015; // Rota el modelo en el eje Y
+      group.current.rotation.y += 0.1 // Rota el modelo en el eje Y
     }
   });
 
@@ -38,10 +38,10 @@ export default function Scene() {
         style={{
           background: 'linear-gradient(45deg, #0B2B26, #163832, #235347, #8EB69B, #DAF1DE)', // Degradado con ángulo de 45°
         }}
-        camera={{ position: [2, 2, 5], fov: 50 }} // Ajusta la posición de la cámara
+        camera={{ position: [0, -0,5, 0], fov: 50 }} // Ajusta la posición de la cámara
       >
         <ambientLight intensity={1.0} /> {/* Más luz ambiental */}
-        <pointLight position={[5, 5, 5]} intensity={1.0} /> {/* Más luz puntual */}
+        <pointLight position={[0, -0,5, 0]} intensity={1.0} /> {/* Más luz puntual */}
         <Model />
         <OrbitControls
           enableZoom={true}
