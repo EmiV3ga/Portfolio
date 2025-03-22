@@ -4,7 +4,7 @@ import { Github, Linkedin, Mail } from 'lucide-react';
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-white dark:bg-secondary text-gray-900 dark:text-gray-200">
+    <div className="min-h-screen bg-[#DAF1DE] dark:bg-secondary text-gray-900 dark:text-gray-200">
       <Scene />
       
       <div className="container mx-auto px-4 py-16">
@@ -32,7 +32,7 @@ const About = () => {
             </div>
           </div>
 
-          <div className="bg-gray-50 dark:bg-primary/10 p-8 rounded-lg">
+          <div className="bg-white dark:bg-primary/10 p-8 rounded-lg">
             <h2 className="text-2xl font-bold mb-4 text-primary dark:text-accent">Work</h2>
             <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
               Emiliano is a freelance and a full-stack developer with a passion for building digital services/stuff he wants. 
@@ -42,7 +42,7 @@ const About = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-gray-50 dark:bg-primary/10 p-6 rounded-lg">
+            <div className="bg-white dark:bg-primary/10 p-6 rounded-lg">
               <h3 className="text-xl font-semibold mb-4 text-primary dark:text-accent">Frontend</h3>
               <ul className="space-y-2 text-gray-700 dark:text-gray-300">
                 <li>React</li>
@@ -52,7 +52,7 @@ const About = () => {
               </ul>
             </div>
             
-            <div className="bg-gray-50 dark:bg-primary/10 p-6 rounded-lg">
+            <div className="bg-white dark:bg-primary/10 p-6 rounded-lg">
               <h3 className="text-xl font-semibold mb-4 text-primary dark:text-accent">Backend</h3>
               <ul className="space-y-2 text-gray-700 dark:text-gray-300">
                 <li>Node.js</li>
@@ -62,7 +62,7 @@ const About = () => {
               </ul>
             </div>
             
-            <div className="bg-gray-50 dark:bg-primary/10 p-6 rounded-lg">
+            <div className="bg-white dark:bg-primary/10 p-6 rounded-lg">
               <h3 className="text-xl font-semibold mb-4 text-primary dark:text-accent">Tools</h3>
               <ul className="space-y-2 text-gray-700 dark:text-gray-300">
                 <li>Git</li>
