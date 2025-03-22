@@ -44,9 +44,9 @@ export default function Scene() {
         <pointLight position={[5, 5, 5]} intensity={1.0} /> {/* Luz puntual */}
         <Model />
         <OrbitControls
-          enableZoom={true} {/* Permitir zoom */}
-          minDistance={3} {/* Distancia mínima de la cámara */}
-          maxDistance={10} {/* Distancia máxima de la cámara */}
+          enableZoom={true} // Permitir zoom
+          minDistance={3} // Distancia mínima de la cámara
+          maxDistance={10} // Distancia máxima de la cámara
         />
       </Canvas>
     </div>
