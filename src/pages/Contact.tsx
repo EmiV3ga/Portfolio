@@ -12,7 +12,7 @@ const Contact = () => {
         </div>
 
         {/* Tarjeta de contacto */}
-        <div className="bg-background dark:bg-background-dark p-8 rounded-lg">
+        <div className="bg-background dark:bg-background-dark p-8 rounded-lg shadow-lg">
           <div className="space-y-6">
             {/* Email */}
             <div className="flex items-center space-x-4">
