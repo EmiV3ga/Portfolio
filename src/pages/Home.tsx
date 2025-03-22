@@ -6,7 +6,6 @@ const Home = () => {
     <div className="bg-[#DAF1DE] dark:bg-[#0B2B26] min-h-screen">
       {/* Contenedor para el render 3D */}
       <div className="w-full h-[400px] relative"> {/* Contenedor relativo para el render 3D */}
-        <div className="absolute inset-0"> {/* Ocupa todo el espacio del contenedor */}
           <Scene /> {/* El render 3D ocupará todo el espacio */}
         </div>
       </div>
