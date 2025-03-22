@@ -76,21 +76,21 @@ const About = () => {
           <div className="flex justify-center space-x-6">
             <a 
               href="https://github.com/EmiV3ga" 
-              className="flex items-center gap-2 text-primary hover:text-primary/80 dark:text-primary-light dark:hover:text-primary-light/80 transition-colors"
+              className="flex items-center gap-2 text-primary hover:text-primary/80 dark:text-accent dark:hover:text-accent/80 transition-colors"
             >
               <Github size={20} />
               <span>GitHub</span>
             </a>
             <a 
               href="https://linkedin.com" 
-              className="flex items-center gap-2 text-primary hover:text-primary/80 dark:text-primary-light dark:hover:text-primary-light/80 transition-colors"
+              className="flex items-center gap-2 text-primary hover:text-primary/80 dark:text-accent dark:hover:text-accent/80 transition-colors"
             >
               <Linkedin size={20} />
               <span>LinkedIn</span>
             </a>
             <a 
               href="mailto:emiliano.dimartino.vega@gmail.com" 
-              className="flex items-center gap-2 text-primary hover:text-primary/80 dark:text-primary-light dark:hover:text-primary-light/80 transition-colors"
+              className="flex items-center gap-2 text-primary hover:text-primary/80 dark:text-accent dark:hover:text-accent/80 transition-colors"
             >
               <Mail size={20} />
               <span>Email</span>
