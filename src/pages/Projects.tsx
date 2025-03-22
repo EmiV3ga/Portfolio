@@ -23,13 +23,13 @@ const projects = [
 const Projects = () => {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8 text-primary dark:text-primary-light">My Projects</h1>
+      <h1 className="text-4xl font-bold mb-8 text-primary dark:text-accent">My Projects</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {projects.map((project, index) => (
           <div key={index} className="bg-white dark:bg-secondary rounded-lg shadow-lg overflow-hidden">
             <img src={project.image} alt={project.title} className="w-full h-48 object-cover" />
             <div className="p-6">
-              <h3 className="text-2xl font-bold mb-2 text-primary dark:text-primary-light">{project.title}</h3>
+              <h3 className="text-2xl font-bold mb-2 text-primary dark:text-accent">{project.title}</h3>
               <p className="text-gray-600 dark:text-gray-300 mb-4">{project.description}</p>
               <div className="flex flex-wrap gap-2 mb-4">
                 {project.technologies.map((tech, i) => (
