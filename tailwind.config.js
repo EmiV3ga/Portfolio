@@ -5,24 +5,24 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#3A4D39', // Verde oscuro
-          dark: '#ECE3CE',    // Beige claro (modo oscuro)
+          DEFAULT: '#0B2B26', // Verde oscuro
+          dark: '#0B2B26',    // Verde oscuro (modo oscuro)
         },
         secondary: {
-          DEFAULT: '#4F6F52', // Verde medio
-          dark: '#739072',    // Verde suave (modo oscuro)
+          DEFAULT: '#163832', // Verde medio
+          dark: '#163832',    // Verde medio (modo oscuro)
         },
         background: {
-          DEFAULT: '#ECE3CE', // Beige claro (modo claro)
-          dark: '#3A4D39',    // Verde oscuro (modo oscuro)
+          DEFAULT: '#DAF1DE', // Verde claro (modo claro)
+          dark: '#0B2B26',    // Verde oscuro (modo oscuro)
         },
         text: {
-          DEFAULT: '#3A4D39', // Verde oscuro (modo claro)
-          dark: '#ECE3CE',    // Beige claro (modo oscuro)
+          DEFAULT: '#0B2B26', // Verde oscuro (modo claro)
+          dark: '#DAF1DE',    // Verde claro (modo oscuro)
         },
         accent: {
-          DEFAULT: '#739072', // Verde suave
-          dark: '#4F6F52',    // Verde medio (modo oscuro)
+          DEFAULT: '#8EB69B', // Verde suave
+          dark: '#8EB69B',    // Verde suave (modo oscuro)
         },
       },
     },
