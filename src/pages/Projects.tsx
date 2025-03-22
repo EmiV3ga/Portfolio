@@ -22,7 +22,7 @@ const projects = [
 
 const Projects = () => {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 bg-[#DAF1DE] dark:bg-secondary">
       <h1 className="text-4xl font-bold mb-8 text-primary dark:text-accent">My Projects</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {projects.map((project, index) => (
