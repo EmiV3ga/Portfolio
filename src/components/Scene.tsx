@@ -25,23 +25,23 @@ function Model() {
     <primitive
       ref={group}
       object={scene}
-      scale={0.02} // Escala más grande (ajustada)
-      position={[0, 0, 0]} // Centrado en la escena (ajustado)
+      scale={0.02} // Escala más grande
+      position={[0, -1, 0]} // Ajusta la posición del modelo (más abajo)
     />
   );
 }
 
 export default function Scene() {
   return (
-    <div className="h-[50vh] w-full">
+    <div className="h-[100vh] w-full"> {/* Altura completa de la pantalla */}
       <Canvas
         style={{
-          background: 'linear-gradient(45deg, #0B2B26, #163832, #235347, #8EB69B, #DAF1DE)', // Degradado con ángulo de 45° (ajustado)
+          background: 'linear-gradient(45deg, #0B2B26, #163832, #235347, #8EB69B, #DAF1DE)', // Degradado con ángulo de 45°
         }}
         camera={{ position: [2, 2, 5], fov: 50 }} // Ajusta la posición de la cámara
       >
-        <ambientLight intensity={1.0} /> {/* Más luz ambiental (ajustada) */}
-        <pointLight position={[5, 5, 5]} intensity={1.0} /> {/* Más luz puntual (ajustada) */}
+        <ambientLight intensity={1.0} /> {/* Más luz ambiental */}
+        <pointLight position={[5, 5, 5]} intensity={1.0} /> {/* Más luz puntual */}
         <Model />
         <OrbitControls
           enableZoom={true}
