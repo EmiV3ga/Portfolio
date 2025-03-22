@@ -16,7 +16,7 @@ const Contact = () => {
           <div className="space-y-6">
             {/* Email */}
             <div className="flex items-center space-x-4">
-              <Mail className="text-primary dark:text-primary-dark" size={28} />
+              <Mail className="text-accent dark:text-accent-dark" size={28} />
               <div>
                 <h3 className="text-lg font-semibold text-primary dark:text-primary-dark">Email</h3>
                 <a
@@ -30,7 +30,7 @@ const Contact = () => {
 
             {/* LinkedIn */}
             <div className="flex items-center space-x-4">
-              <Linkedin className="text-primary dark:text-primary-dark" size={28} />
+              <Linkedin className="text-accent dark:text-accent-dark" size={28} />
               <div>
                 <h3 className="text-lg font-semibold text-primary dark:text-primary-dark">LinkedIn</h3>
                 <a
@@ -44,7 +44,7 @@ const Contact = () => {
 
             {/* GitHub */}
             <div className="flex items-center space-x-4">
-              <Github className="text-primary dark:text-primary-dark" size={28} />
+              <Github className="text-accent dark:text-accent-dark" size={28} />
               <div>
                 <h3 className="text-lg font-semibold text-primary dark:text-primary-dark">GitHub</h3>
                 <a
@@ -58,7 +58,7 @@ const Contact = () => {
 
             {/* Teléfono */}
             <div className="flex items-center space-x-4">
-              <Phone className="text-primary dark:text-primary-dark" size={28} />
+              <Phone className="text-accent dark:text-accent-dark" size={28} />
               <div>
                 <h3 className="text-lg font-semibold text-primary dark:text-primary-dark">Phone</h3>
                 <p className="text-text dark:text-text-dark">+54 (2494)525601</p>
