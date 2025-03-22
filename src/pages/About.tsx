@@ -19,10 +19,10 @@ const About = () => {
             </div>
             <div className="md:w-2/3 text-center md:text-left">
               <div className="mb-4">
-                <h1 className="text-4xl font-bold text-primary dark:text-primary-light">
+                <h1 className="text-4xl font-bold text-primary dark:text-accent">
                   Emiliano Vega
                 </h1>
-                <p className="text-xl text-primary/80 dark:text-primary-light/80">
+                <p className="text-xl text-primary/80 dark:text-accent/80">
                   Digital Craftsman ( Developer / Designer )
                 </p>
               </div>
@@ -33,7 +33,7 @@ const About = () => {
           </div>
 
           <div className="bg-gray-50 dark:bg-primary/10 p-8 rounded-lg">
-            <h2 className="text-2xl font-bold mb-4 text-primary dark:text-primary-light">Work</h2>
+            <h2 className="text-2xl font-bold mb-4 text-primary dark:text-accent">Work</h2>
             <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
               Emiliano is a freelance and a full-stack developer with a passion for building digital services/stuff he wants. 
               He has a knack for all things launching products, from planning and designing all the way to solving real-life 
@@ -43,7 +43,7 @@ const About = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-gray-50 dark:bg-primary/10 p-6 rounded-lg">
-              <h3 className="text-xl font-semibold mb-4 text-primary dark:text-primary-light">Frontend</h3>
+              <h3 className="text-xl font-semibold mb-4 text-primary dark:text-accent">Frontend</h3>
               <ul className="space-y-2 text-gray-700 dark:text-gray-300">
                 <li>React</li>
                 <li>TypeScript</li>
@@ -53,7 +53,7 @@ const About = () => {
             </div>
             
             <div className="bg-gray-50 dark:bg-primary/10 p-6 rounded-lg">
-              <h3 className="text-xl font-semibold mb-4 text-primary dark:text-primary-light">Backend</h3>
+              <h3 className="text-xl font-semibold mb-4 text-primary dark:text-accent">Backend</h3>
               <ul className="space-y-2 text-gray-700 dark:text-gray-300">
                 <li>Node.js</li>
                 <li>Express</li>
@@ -63,7 +63,7 @@ const About = () => {
             </div>
             
             <div className="bg-gray-50 dark:bg-primary/10 p-6 rounded-lg">
-              <h3 className="text-xl font-semibold mb-4 text-primary dark:text-primary-light">Tools</h3>
+              <h3 className="text-xl font-semibold mb-4 text-primary dark:text-accent">Tools</h3>
               <ul className="space-y-2 text-gray-700 dark:text-gray-300">
                 <li>Git</li>
                 <li>Docker</li>
