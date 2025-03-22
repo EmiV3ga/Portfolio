@@ -25,30 +25,30 @@ function Model() {
     <primitive
       ref={group}
       object={scene}
-      scale={0.01} // Escala moderada
-      position={[0, -0.5, 0]} // Ajusta la posición del modelo (más abajo)
+      scale={0.005} // Modelo más pequeño
+      position={[0, -0.5, 0]}
     />
   );
 }
 
 export default function Scene() {
   return (
-    <div className="h-[50vh] w-full"> {/* Altura moderada */}
-      <Canvas
-        style={{
-          background: 'linear-gradient(45deg, #0B2B26, #163832, #235347, #8EB69B, #DAF1DE)', // Degradado con ángulo de 45°
-        }}
-        camera={{ position: [0, 0, 5], fov: 50 }} // Ajusta la posición de la cámara
-      >
-        <ambientLight intensity={1.0} /> {/* Luz ambiental */}
-        <pointLight position={[5, 5, 5]} intensity={1.0} /> {/* Luz puntual */}
-        <Model />
-        <OrbitControls
-          enableZoom={true} // Permitir zoom
-          minDistance={3} // Distancia mínima de la cámara
-          maxDistance={10} // Distancia máxima de la cámara
-        />
-      </Canvas>
-    </div>
+    <div className="h-[40vh] w-full"> {/* Contenedor más pequeño */}
+  <Canvas
+    style={{
+      background: 'linear-gradient(45deg, #0B2B26, #163832, #235347, #8EB69B, #DAF1DE)',
+    }}
+    camera={{ position: [0, 0, 5], fov: 50 }}
+  >
+    <ambientLight intensity={1.0} />
+    <pointLight position={[5, 5, 5]} intensity={1.0} />
+    <Model />
+    <OrbitControls
+      enableZoom={true}
+      minDistance={3}
+      maxDistance={10}
+    />
+  </Canvas>
+</div>
   );
 }
