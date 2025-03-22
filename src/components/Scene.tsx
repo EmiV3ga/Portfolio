@@ -17,7 +17,7 @@ function Model() {
   // Agregar rotación continua
   useFrame((state, delta) => {
     if (group.current) {
-      group.current.rotation.y += 0.005; // Rota el modelo en el eje Y
+      group.current.rotation.y += 0.015; // Rota el modelo en el eje Y
     }
   });
 
@@ -25,8 +25,8 @@ function Model() {
     <primitive
       ref={group}
       object={scene}
-      scale={0.02} // Escala más grande
-      position={[0, -1, 0]} // Ajusta la posición del modelo (más abajo)
+      scale={0.01} // Escala más grande
+      position={[0, 1, 0]} // Ajusta la posición del modelo (más abajo)
     />
   );
 }
