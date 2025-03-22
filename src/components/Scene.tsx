@@ -17,7 +17,7 @@ function Model() {
   // Agregar rotación continua
   useFrame((state, delta) => {
     if (group.current) {
-      group.current.rotation.y += 0.1 // Rota el modelo en el eje Y
+      group.current.rotation.y += 0.001; // Rota el modelo en el eje Y
     }
   });
 
@@ -25,28 +25,28 @@ function Model() {
     <primitive
       ref={group}
       object={scene}
-      scale={0.01} // Escala más grande
-      position={[0, -0,5, 0]} // Ajusta la posición del modelo (más abajo)
+      scale={0.01} // Escala moderada
+      position={[0, -0.5, 0]} // Ajusta la posición del modelo (más abajo)
     />
   );
 }
 
 export default function Scene() {
   return (
-    <div className="h-[60vh] w-%60"> {/* Altura completa de la pantalla */}
+    <div className="h-[50vh] w-full"> {/* Altura moderada */}
       <Canvas
         style={{
           background: 'linear-gradient(45deg, #0B2B26, #163832, #235347, #8EB69B, #DAF1DE)', // Degradado con ángulo de 45°
         }}
-        camera={{ position: [0, -0,5, 0], fov: 50 }} // Ajusta la posición de la cámara
+        camera={{ position: [0, 0, 5], fov: 50 }} // Ajusta la posición de la cámara
       >
-        <ambientLight intensity={1.0} /> {/* Más luz ambiental */}
-        <pointLight position={[0, -0,5, 0]} intensity={1.0} /> {/* Más luz puntual */}
+        <ambientLight intensity={1.0} /> {/* Luz ambiental */}
+        <pointLight position={[5, 5, 5]} intensity={1.0} /> {/* Luz puntual */}
         <Model />
         <OrbitControls
-          enableZoom={true}
-          minDistance={3}
-          maxDistance={10}
+          enableZoom={true} {/* Permitir zoom */}
+          minDistance={3} {/* Distancia mínima de la cámara */}
+          maxDistance={10} {/* Distancia máxima de la cámara */}
         />
       </Canvas>
     </div>
