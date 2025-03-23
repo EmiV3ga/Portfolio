@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, Link } from 'react-router-dom'; // Importa Link
+import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 
 const Login = () => {
@@ -29,7 +29,7 @@ const Login = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-md mx-auto p-4">
       <h1 className="text-2xl font-bold mb-6 dark:text-white">Login</h1>
       {error && (
         <div className="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-200 px-4 py-3 rounded mb-4">
