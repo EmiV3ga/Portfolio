@@ -9,6 +9,7 @@ const About = () => {
       
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto space-y-12">
+          {/* Profile Section */}
           <div className="flex flex-col md:flex-row items-center gap-8">
             <div className="md:w-1/3">
               <img
@@ -32,6 +33,7 @@ const About = () => {
             </div>
           </div>
 
+          {/* Bio Section */}
           <div className="bg-white dark:bg-primary/10 p-8 rounded-lg">
             <h2 className="text-2xl font-bold mb-4 text-primary dark:text-accent">Work</h2>
             <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
@@ -41,6 +43,7 @@ const About = () => {
             </p>
           </div>
 
+          {/* Skills Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white dark:bg-primary/10 p-6 rounded-lg">
               <h3 className="text-xl font-semibold mb-4 text-primary dark:text-accent">Frontend</h3>
@@ -73,6 +76,34 @@ const About = () => {
             </div>
           </div>
 
+          {/* Bio Timeline */}
+          <div className="bg-white dark:bg-primary/10 p-8 rounded-lg">
+            <h2 className="text-2xl font-bold mb-6 text-primary dark:text-accent">Bio</h2>
+            <div className="space-y-4">
+              <div className="flex">
+                <span className="w-24 font-bold text-primary dark:text-accent">2023</span>
+                <span>Started freelancing</span>
+              </div>
+              <div className="flex">
+                <span className="w-24 font-bold text-primary dark:text-accent">2020</span>
+                <span>Completed Master's in Computer Science</span>
+              </div>
+              <div className="flex">
+                <span className="w-24 font-bold text-primary dark:text-accent">2016</span>
+                <span>Started working as a developer</span>
+              </div>
+            </div>
+          </div>
+
+          {/* I ♥ Section */}
+          <div className="bg-white dark:bg-primary/10 p-8 rounded-lg">
+            <h2 className="text-2xl font-bold mb-6 text-primary dark:text-accent">I ♥</h2>
+            <p className="text-lg text-gray-700 dark:text-gray-300">
+              Art, Music, Drawing, Playing Drums, Photography, Machine Learning
+            </p>
+          </div>
+
+          {/* Social Links */}
           <div className="flex justify-center space-x-6">
             <a 
               href="https://github.com/EmiV3ga" 
