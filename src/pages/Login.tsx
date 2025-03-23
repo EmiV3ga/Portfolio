@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 
-export function Login() {
+const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -73,4 +73,6 @@ export function Login() {
       </form>
     </div>
   );
-}
+};
+
+export default Login;
