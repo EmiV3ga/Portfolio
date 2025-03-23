@@ -1,24 +1,22 @@
-import React, { useState } from 'react';
-import { supabase } from '../lib/supabase';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
 
-const NewPost = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+export function NewPost() {
   const navigate = useNavigate();
+  const [title, setTitle] = React.useState('');
+  const [content, setContent] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
-    const { data: { user } } = await supabase.auth.getUser();
-
     const { error: insertError } = await supabase
       .from('posts')
-      .insert([{ title, content, user_id: user?.id }]);
+      .insert([{ title, content }]);
 
     if (insertError) {
       setError(insertError.message);
@@ -74,6 +72,4 @@ const NewPost = () => {
       </form>
     </div>
   );
-};
-
-export default NewPost;
+}
