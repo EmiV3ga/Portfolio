@@ -4,7 +4,7 @@ import { MessageSquare, Heart, Share2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 // Importa tu foto de perfil desde src/assets
-import miFoto from '../assets/mi-foto.jpg';
+import miFoto from '../assets/Perfil.jpg';
 
 // Componente que muestra el feed de posts
 const Feed = () => {
