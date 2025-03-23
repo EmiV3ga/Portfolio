@@ -8,25 +8,6 @@ const Feed = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Datos de ejemplo (puedes eliminarlos una vez que todo funcione correctamente)
-  const examplePosts = [
-    {
-      id: 1,
-      content: "Just launched my new portfolio! Check it out and let me know what you think 🚀",
-      date: "2024-03-19",
-      likes: 42,
-      comments: 8,
-      image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80"
-    },
-    {
-      id: 2,
-      content: "Working on some exciting new features for the upcoming project. Stay tuned! 💻",
-      date: "2024-03-18",
-      likes: 35,
-      comments: 5
-    }
-  ];
-
   // Cargar posts desde Supabase
   useEffect(() => {
     const fetchPosts = async () => {
@@ -37,8 +18,6 @@ const Feed = () => {
 
       if (error) {
         console.error('Error fetching posts:', error);
-        // Si hay un error, usa los datos de ejemplo
-        setPosts(examplePosts);
       } else {
         setPosts(data);
       }
