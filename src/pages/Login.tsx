@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Importa Link
 import { supabase } from '../lib/supabase';
 
 const Login = () => {
@@ -71,6 +71,9 @@ const Login = () => {
           {loading ? 'Loading...' : 'Login'}
         </button>
       </form>
+      <p className="mt-4 text-center dark:text-white">
+        ¿No tienes una cuenta? <Link to="/register" className="text-blue-600 dark:text-blue-400">Regístrate aquí</Link>
+      </p>
     </div>
   );
 };

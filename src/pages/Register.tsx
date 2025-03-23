@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom'; // Importa Link
 import { supabase } from '../lib/supabase';
 
 const Register = () => {
@@ -62,6 +63,9 @@ const Register = () => {
           Register
         </button>
       </form>
+      <p className="mt-4 text-center dark:text-white">
+        ¿Ya tienes una cuenta? <Link to="/login" className="text-blue-600 dark:text-blue-400">Inicia sesión aquí</Link>
+      </p>
     </div>
   );
 };

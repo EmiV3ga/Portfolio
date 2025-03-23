@@ -7,6 +7,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Posts from './pages/Posts';
 import Login from './pages/Login';
+import Register from './pages/Register'; // Importa el componente Register
 import { ThemeProvider } from './context/ThemeContext';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
@@ -24,6 +25,7 @@ function App() {
               <Route path="contact" element={<Contact />} />
               <Route path="posts" element={<Posts />} />
               <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} /> {/* Agrega la ruta de registro */}
             </Route>
           </Routes>
         </BrowserRouter>
