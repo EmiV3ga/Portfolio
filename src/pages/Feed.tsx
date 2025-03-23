@@ -3,12 +3,16 @@ import { useTranslation } from 'react-i18next';
 import { MessageSquare, Heart, Share2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
+// Importa tu foto de perfil desde src/assets
+import miFoto from '../assets/mi-foto.jpg';
+
+// Componente que muestra el feed de posts
 const Feed = () => {
   const { t } = useTranslation();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Datos de ejemplo
+  // Datos de ejemplo con tu foto de perfil
   const examplePosts = [
     {
       id: 1,
@@ -16,10 +20,10 @@ const Feed = () => {
       created_at: "2024-03-19",
       likes: 42,
       comments: 8,
-      image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80",
+      image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80", // Imagen de portada (se mantiene)
       profiles: {
         full_name: "Emiliano Vega",
-        avatar_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80"
+        avatar_url: miFoto // Usa tu foto de perfil
       }
     },
     {
@@ -30,7 +34,7 @@ const Feed = () => {
       comments: 5,
       profiles: {
         full_name: "Emiliano Vega",
-        avatar_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80"
+        avatar_url: miFoto // Usa tu foto de perfil
       }
     }
   ];
