@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 
 const Register = () => {
@@ -7,6 +7,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,6 +25,7 @@ const Register = () => {
       setError(signUpError.message);
     } else {
       alert('Registration successful! Please check your email to confirm your account.');
+      navigate('/login');
     }
 
     setLoading(false);
