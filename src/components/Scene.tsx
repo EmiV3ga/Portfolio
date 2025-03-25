@@ -1,54 +1,31 @@
-import React, { useRef, useEffect } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { useGLTF, OrbitControls, useAnimations } from '@react-three/drei';
+import { useRef } from 'react';
+import { useFrame } from '@react-three/fiber';
+import { useGLTF } from '@react-three/drei';
+import * as THREE from 'three';
+import { GLTF } from 'three-stdlib';
 
-function Model() {
-  const group = useRef(); // Referencia al grupo del modelo
-  const { scene, animations } = useGLTF('https://threejs.org/examples/models/gltf/LittlestTokyo.glb');
-  const { actions } = useAnimations(animations, group); // Cargar animaciones
+type GLTFResult = GLTF & {
+  nodes: Record<string, THREE.Mesh>;
+  materials: Record<string, THREE.Material>;
+};
 
-  // Reproducir la animación automáticamente
-  useEffect(() => {
-    if (actions && actions['Take 001']) {
-      actions['Take 001'].play(); // Reproduce la animación llamada 'Take 001'
-    }
-  }, [actions]);
+export default function Scene({ ...props }) {
+  const group = useRef<THREE.Group>();
+  const { scene } = useGLTF('https://threejs.org/examples/models/gltf/LittlestTokyo.glb') as GLTFResult;
 
-  // Agregar rotación continua
-  useFrame((state, delta) => {
+  // Smooth rotation animation
+  useFrame((state) => {
     if (group.current) {
-      group.current.rotation.y += 0.001; // Rota el modelo en el eje Y
+      group.current.rotation.y = Math.sin(state.clock.elapsedTime / 2) * 0.3;
     }
   });
 
   return (
-    <primitive
-      ref={group}
-      object={scene}
-      scale={0.005} // Modelo más pequeño
-      position={[0, -0.5, 0]}
-    />
+    <group ref={group} {...props} dispose={null}>
+      <primitive object={scene} scale={0.01} position={[0, -2, 0]} />
+    </group>
   );
 }
 
-export default function Scene() {
-  return (
-    <div className="h-[40vh] w-full"> {/* Contenedor más pequeño */}
-  <Canvas
-    style={{
-      background: 'linear-gradient(45deg, #0B2B26, #163832, #235347, #8EB69B, #DAF1DE)',
-    }}
-    camera={{ position: [0, 0, 5], fov: 50 }}
-  >
-    <ambientLight intensity={1.0} />
-    <pointLight position={[5, 5, 5]} intensity={1.0} />
-    <Model />
-    <OrbitControls
-      enableZoom={true}
-      minDistance={3}
-      maxDistance={10}
-    />
-  </Canvas>
-</div>
-  );
-}
+// Preload the model
+useGLTF.preload('https://threejs.org/examples/models/gltf/LittlestTokyo.glb');

@@ -1,3 +1,78 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background dark:bg-background-dark text-text dark:text-white;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-4 py-2 bg-button-primary text-button-primary-text rounded-lg 
+    hover:bg-button-primary-hover transition-colors duration-200 
+    disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 bg-button-secondary text-button-secondary-text rounded-lg 
+    hover:bg-button-secondary-hover transition-colors duration-200
+    disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .form-input {
+    @apply w-full px-4 py-2 bg-form border border-form-border rounded-lg
+    text-text placeholder-text-light
+    focus:outline-none focus:ring-2 focus:ring-form-focus focus:border-transparent
+    dark:bg-accent-dark dark:border-accent-light dark:text-white;
+  }
+
+  .card {
+    @apply bg-card p-6 rounded-lg shadow-lg hover:bg-card-hover transition-colors duration-200
+    dark:bg-accent dark:hover:bg-accent-dark;
+  }
+}
+
+.toggle-scene__cord {
+  @apply stroke-secondary dark:stroke-primary-light cursor-move;
+}
+
+.toggle-scene__cord:nth-of-type(1) {
+  display: none;
+}
+
+.toggle-scene__cord:nth-of-type(2),
+.toggle-scene__cord:nth-of-type(3),
+.toggle-scene__cord:nth-of-type(4),
+.toggle-scene__cord:nth-of-type(5) {
+  display: none;
+}
+
+.toggle-scene__dummy-cord {
+  @apply stroke-[6] stroke-secondary dark:stroke-primary-light;
+}
+
+.bulb__cap {
+  @apply fill-primary dark:fill-accent;
+}
+
+.bulb__cap-shine {
+  @apply fill-primary-light dark:fill-accent-light opacity-75;
+}
+
+.bulb__filament {
+  @apply stroke-accent dark:stroke-primary-light;
+}
+
+.bulb__shine {
+  @apply stroke-primary-light dark:stroke-accent-light;
+}
+
+.bulb__flash {
+  @apply stroke-accent-light dark:stroke-primary;
+}
+
+.bulb__bulb {
+  @apply stroke-secondary dark:stroke-primary-light fill-primary/10 dark:fill-accent/10;
+}

@@ -3,92 +3,93 @@ import { Mail, Linkedin, Github, Phone } from 'lucide-react';
 
 const Contact = () => {
   return (
-    <div className="min-h-screen bg-[#DAF1DE] dark:bg-[#0B2B26] flex items-center justify-center px-4">
-      <div className="w-full max-w-3xl">
+    <div className="min-h-screen bg-background dark:bg-background-dark flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-4xl">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-[#0B2B26] dark:text-[#DAF1DE] mb-2">Contact Me</h1>
-          <p className="text-[#235347] dark:text-[#8EB69B]">Let's work together!</p>
+          <h1 className="text-4xl font-bold text-primary dark:text-accent-light mb-2">
+            Get in Touch
+          </h1>
+          <p className="text-secondary dark:text-secondary-light">
+            Let's work together on something amazing
+          </p>
         </div>
 
-        <div className="bg-[#8EB69B] dark:bg-[#163832] rounded-lg p-8 shadow-lg">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Left Column */}
-            <div className="space-y-6">
-              <div className="flex items-center space-x-4">
-                <Mail className="text-[#0B2B26] dark:text-[#8EB69B]" size={20} />
-                <div>
-                  <h3 className="text-[#0B2B26] dark:text-[#DAF1DE] text-sm font-semibold">Email</h3>
-                  <a href="mailto:emiliano.dimartino.vega@gmail.com" 
-                     className="text-[#235347] dark:text-[#8EB69B] text-sm hover:text-[#0B2B26] dark:hover:text-[#DAF1DE] transition-colors">
-                    emiliano.dimartino.vega@gmail.com
-                  </a>
-                </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Email Card */}
+          <a 
+            href="mailto:emiliano.dimartino.vega@gmail.com"
+            className="bg-white dark:bg-accent rounded-lg p-6 shadow-lg transform transition-all duration-300 hover:scale-[1.02] cursor-pointer"
+          >
+            <div className="flex items-center space-x-4">
+              <div className="bg-accent/20 p-4 rounded-full">
+                <Mail className="text-accent dark:text-accent-light h-8 w-8" />
               </div>
-
-              <div className="flex items-center space-x-4">
-                <Linkedin className="text-[#0B2B26] dark:text-[#8EB69B]" size={20} />
-                <div>
-                  <h3 className="text-[#0B2B26] dark:text-[#DAF1DE] text-sm font-semibold">LinkedIn</h3>
-                  <a href="#" className="text-[#235347] dark:text-[#8EB69B] text-sm hover:text-[#0B2B26] dark:hover:text-[#DAF1DE] transition-colors">
-                    Connect with me
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-4">
-                <Github className="text-[#0B2B26] dark:text-[#8EB69B]" size={20} />
-                <div>
-                  <h3 className="text-[#0B2B26] dark:text-[#DAF1DE] text-sm font-semibold">GitHub</h3>
-                  <a href="https://github.com/EmiV3ga" 
-                     className="text-[#235347] dark:text-[#8EB69B] text-sm hover:text-[#0B2B26] dark:hover:text-[#DAF1DE] transition-colors">
-                    Check my repositories
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-4">
-                <Phone className="text-[#0B2B26] dark:text-[#8EB69B]" size={20} />
-                <div>
-                  <h3 className="text-[#0B2B26] dark:text-[#DAF1DE] text-sm font-semibold">Phone</h3>
-                  <p className="text-[#235347] dark:text-[#8EB69B] text-sm">+54 (2494)525601</p>
-                </div>
+              <div>
+                <h3 className="text-lg font-semibold text-accent dark:text-accent-light">Email</h3>
+                <p className="text-secondary dark:text-secondary-light">
+                  Send me a message
+                </p>
               </div>
             </div>
+          </a>
 
-            {/* Right Column */}
-            <div className="space-y-6">
-              <div>
-                <label className="text-[#0B2B26] dark:text-[#DAF1DE] text-sm font-semibold block mb-2">Name</label>
-                <input
-                  type="text"
-                  className="w-full bg-[#DAF1DE] dark:bg-[#0B2B26] border border-[#235347] dark:border-[#8EB69B] rounded px-3 py-2 text-[#0B2B26] dark:text-[#DAF1DE] focus:outline-none focus:border-[#0B2B26] dark:focus:border-[#DAF1DE]"
-                />
+          {/* GitHub Card */}
+          <a 
+            href="https://github.com/EmiV3ga"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white dark:bg-accent rounded-lg p-6 shadow-lg transform transition-all duration-300 hover:scale-[1.02] cursor-pointer"
+          >
+            <div className="flex items-center space-x-4">
+              <div className="bg-accent/20 p-4 rounded-full">
+                <Github className="text-accent dark:text-accent-light h-8 w-8" />
               </div>
-
               <div>
-                <label className="text-[#0B2B26] dark:text-[#DAF1DE] text-sm font-semibold block mb-2">Email</label>
-                <input
-                  type="email"
-                  className="w-full bg-[#DAF1DE] dark:bg-[#0B2B26] border border-[#235347] dark:border-[#8EB69B] rounded px-3 py-2 text-[#0B2B26] dark:text-[#DAF1DE] focus:outline-none focus:border-[#0B2B26] dark:focus:border-[#DAF1DE]"
-                />
+                <h3 className="text-lg font-semibold text-accent dark:text-accent-light">GitHub</h3>
+                <p className="text-secondary dark:text-secondary-light">
+                  Check out my repositories
+                </p>
               </div>
-
-              <div>
-                <label className="text-[#0B2B26] dark:text-[#DAF1DE] text-sm font-semibold block mb-2">Message</label>
-                <textarea
-                  rows={4}
-                  className="w-full bg-[#DAF1DE] dark:bg-[#0B2B26] border border-[#235347] dark:border-[#8EB69B] rounded px-3 py-2 text-[#0B2B26] dark:text-[#DAF1DE] focus:outline-none focus:border-[#0B2B26] dark:focus:border-[#DAF1DE] resize-none"
-                ></textarea>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-[#0B2B26] dark:bg-[#DAF1DE] text-[#DAF1DE] dark:text-[#0B2B26] py-2 rounded hover:bg-[#235347] dark:hover:bg-[#8EB69B] transition-colors font-semibold"
-              >
-                Send Message
-              </button>
             </div>
-          </div>
+          </a>
+
+          {/* LinkedIn Card */}
+          <a 
+            href="https://linkedin.com/in/emiliano-vega"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white dark:bg-accent rounded-lg p-6 shadow-lg transform transition-all duration-300 hover:scale-[1.02] cursor-pointer"
+          >
+            <div className="flex items-center space-x-4">
+              <div className="bg-accent/20 p-4 rounded-full">
+                <Linkedin className="text-accent dark:text-accent-light h-8 w-8" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-accent dark:text-accent-light">LinkedIn</h3>
+                <p className="text-secondary dark:text-secondary-light">
+                  Connect with me professionally
+                </p>
+              </div>
+            </div>
+          </a>
+
+          {/* Phone Card */}
+          <a 
+            href="tel:+542494525601"
+            className="bg-white dark:bg-accent rounded-lg p-6 shadow-lg transform transition-all duration-300 hover:scale-[1.02] cursor-pointer"
+          >
+            <div className="flex items-center space-x-4">
+              <div className="bg-accent/20 p-4 rounded-full">
+                <Phone className="text-accent dark:text-accent-light h-8 w-8" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-accent dark:text-accent-light">Phone</h3>
+                <p className="text-secondary dark:text-secondary-light">
+                  Let's have a conversation
+                </p>
+              </div>
+            </div>
+          </a>
         </div>
       </div>
     </div>

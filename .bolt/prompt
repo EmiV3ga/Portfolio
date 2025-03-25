@@ -1,8 +1,36 @@
-For all designs I ask you to make, have them be beautiful, not cookie cutter. Make webpages that are fully featured and worthy for production.
+*1. **Funcionalidad del Libro de Visitas:**
+   - Hacer que las firmas sean visibles tanto para mí como para los visitantes
+   - Implementar un sistema adecuado de envío y visualización de firmas
+   - Firmas de estilo similar a la estética limpia de jhey.dev
+   - Almacenar y recuperar firmas de manera eficiente.
 
-By default, this template supports JSX syntax with Tailwind CSS classes, React hooks, and Lucide React for icons. Do not install other packages for UI themes, icons, etc unless absolutely necessary or I request them.
+2. **Sistema de publicación de mensajes
+   - Arreglar la funcionalidad del botón 'Publicar' en Posts.tsx
+   - Asegurar que los posts con imágenes se publiquen correctamente en Feed.tsx
+   - Implementar la funcionalidad de carga y visualización de imágenes
+   - Validar el contenido del post antes de publicarlo
+ - Hacer que los post  sean visibles tanto para mí como para los visitantes.
 
-Use icons from lucide-react for logos.
+3. **Actualización de la paleta de colores
+   - Reemplazar el esquema de color actual con esta nueva paleta:
+     - Primario: #c4bbaf (Plata)
+     - Secundario: #a5978b (Cinereous)
+     - Acento: #5c4742 (Hígado)
+     - Oscuro: #8d5b4c (Secuoya)
+     - Oscuro #5a2a27 (Caput mortuum)
+   - Aplíquelo de forma coherente en todos los componentes
+   - Garantizar un contraste adecuado para la legibilidad.
 
-Use stock photos from unsplash where appropriate, only valid URLs you know exist. Do not download the images, only link to them in image tags.
 
+4. **Sustitución del render 3D
+   - Sustituir tanto en home como en about el render 3D actual por el nuevo modelo de:
+     https://gist.github.com/EmiV3ga/0614212bcacbfc1c6c32fac7031b4fbb
+   - Optimizar el rendimiento
+   - Mantener el comportamiento de respuesta
+   - Asegurar iluminación y materiales adecuados.
+
+Notas adicionales:
+- El libro de visitas debe utilizar mi configuración existente Supabase
+- El sistema de post debe manejar la carga de imágenes con gracia
+- El renderizado 3D no debe afectar al rendimiento de carga de la página
+- Todos los cambios deben mantener la estética actual de la cartera, mientras que la actualización de la mirada »
