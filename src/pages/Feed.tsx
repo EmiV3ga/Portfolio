@@ -1,59 +1,103 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { Heart, MessageCircle, Share2, Image as ImageIcon, Home, FolderGit2, MessageSquare, User, Mail } from 'lucide-react';
+import { Heart, MessageCircle, Share2, Trash2, Send } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import Cookies from 'js-cookie';
 
 interface Post {
   id: string;
+  title: string;
   content: string;
-  image_url?: string;
+  markdown_content: string;
   created_at: string;
-  user_id: string;
   likes: number;
+  image_url?: string;
   display_name?: string;
   avatar_url?: string;
 }
 
-const Feed = () => {
-  const navigate = useNavigate();
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [newPost, setNewPost] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<any>(null);
-  const [showImageInput, setShowImageInput] = useState(false);
+interface Comment {
+  id: string;
+  content: string;
+  created_at: string;
+  visitor_name?: string;
+  display_name?: string;
+  avatar_url?: string;
+}
 
-  // Example posts that will be shown when there are no posts
-  const examplePosts = [
-    {
-      id: "example-1",
-      content: "Just launched my new portfolio! Check it out and let me know what you think 🚀",
-      created_at: new Date().toISOString(),
-      user_id: "example",
-      likes: 42,
-      display_name: "Emiliano Vega",
-      avatar_url: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80",
-      image_url: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80"
-    },
-    {
-      id: "example-2",
-      content: "Working on some exciting new features for the upcoming project. Stay tuned! 💻",
-      created_at: new Date().toISOString(),
-      user_id: "example",
-      likes: 35,
-      display_name: "Emiliano Vega",
-      avatar_url: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80"
-    }
-  ];
+const DELETED_POSTS_KEY = 'deleted_posts_v2'; // New versioned key for deleted posts
+
+const Feed = () => {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [comments, setComments] = useState<Record<string, Comment[]>>({});
+  const [newComment, setNewComment] = useState<Record<string, string>>({});
+  const [visitorName, setVisitorName] = useState('');
+  const [showComments, setShowComments] = useState<Record<string, boolean>>({});
+  const [user, setUser] = useState<any>(null);
+  const [deletedPosts, setDeletedPosts] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     checkUser();
-    fetchPosts();
+    checkAdminStatus();
+    loadDeletedPosts();
+    loadLikedPosts();
   }, []);
+
+  useEffect(() => {
+    if (deletedPosts.size > 0) {
+      localStorage.setItem(DELETED_POSTS_KEY, JSON.stringify(Array.from(deletedPosts)));
+    }
+  }, [deletedPosts]);
+
+  const loadDeletedPosts = () => {
+    try {
+      const deletedPostsStr = localStorage.getItem(DELETED_POSTS_KEY);
+      if (deletedPostsStr) {
+        const deletedPostsArray = JSON.parse(deletedPostsStr);
+        setDeletedPosts(new Set(deletedPostsArray));
+      }
+    } catch (error) {
+      console.error('Error loading deleted posts:', error);
+      // If there's an error, clear the corrupted data
+      localStorage.removeItem(DELETED_POSTS_KEY);
+    }
+  };
 
   const checkUser = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     setUser(user);
+  };
+
+  const checkAdminStatus = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('is_admin')
+          .eq('id', user.id)
+          .single();
+        setIsAdmin(!!profile?.is_admin);
+      }
+    } catch (error) {
+      console.error('Error checking admin status:', error);
+    }
+  };
+
+  const loadLikedPosts = () => {
+    const liked = Cookies.get('liked_posts');
+    if (liked) {
+      setLikedPosts(new Set(JSON.parse(liked)));
+    }
+  };
+
+  const saveLikedPosts = (postIds: Set<string>) => {
+    Cookies.set('liked_posts', JSON.stringify(Array.from(postIds)), { expires: 365 });
   };
 
   const fetchPosts = async () => {
@@ -64,195 +108,320 @@ const Feed = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setPosts([...examplePosts, ...(data || [])]);
+
+      // Filter out deleted posts
+      const filteredPosts = data?.filter(post => !deletedPosts.has(post.id)) || [];
+      setPosts(filteredPosts);
+
+      // Fetch comments for all posts
+      filteredPosts?.forEach(post => {
+        fetchComments(post.id);
+      });
     } catch (error) {
       console.error('Error fetching posts:', error);
-      setPosts(examplePosts);
+      setError('Failed to load posts');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleCreatePost = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!user) {
-      navigate('/login');
-      return;
-    }
+  useEffect(() => {
+    fetchPosts();
+  }, [deletedPosts]); // Re-fetch when deletedPosts changes
 
-    if (!newPost.trim()) return;
-
-    setLoading(true);
+  const fetchComments = async (postId: string) => {
     try {
-      const { error } = await supabase
-        .from('posts')
-        .insert([{
-          content: newPost,
-          image_url: imageUrl,
-          user_id: user.id
-        }]);
+      const { data, error } = await supabase
+        .from('comment_details')
+        .select('*')
+        .eq('post_id', postId)
+        .order('created_at', { ascending: true });
 
       if (error) throw error;
-
-      setNewPost('');
-      setImageUrl('');
-      setShowImageInput(false);
-      await fetchPosts();
+      setComments(prev => ({ ...prev, [postId]: data || [] }));
     } catch (error) {
-      console.error('Error creating post:', error);
-    } finally {
-      setLoading(false);
+      console.error('Error fetching comments:', error);
     }
   };
 
   const handleLike = async (postId: string) => {
-    if (!user) {
-      navigate('/login');
-      return;
+    if (likedPosts.has(postId)) return;
+
+    try {
+      const visitorId = Cookies.get('visitor_id') || Math.random().toString(36).substring(7);
+      Cookies.set('visitor_id', visitorId, { expires: 365 });
+
+      const { error } = await supabase
+        .from('post_likes')
+        .insert([{ post_id: postId, visitor_id: visitorId }]);
+
+      if (error) throw error;
+
+      const newLikedPosts = new Set(likedPosts);
+      newLikedPosts.add(postId);
+      setLikedPosts(newLikedPosts);
+      saveLikedPosts(newLikedPosts);
+
+      setPosts(posts.map(post => 
+        post.id === postId 
+          ? { ...post, likes: (post.likes || 0) + 1 }
+          : post
+      ));
+    } catch (error) {
+      console.error('Error liking post:', error);
+      setError('Failed to like post');
     }
+  };
+
+  const handleDeletePost = async (postId: string) => {
+    if (!isAdmin) return;
 
     try {
       const { error } = await supabase
         .from('posts')
-        .update({ likes: (posts.find(p => p.id === postId)?.likes || 0) + 1 })
+        .delete()
         .eq('id', postId);
 
       if (error) throw error;
-      await fetchPosts();
+
+      // Update local state
+      const newDeletedPosts = new Set(deletedPosts);
+      newDeletedPosts.add(postId);
+      setDeletedPosts(newDeletedPosts);
+
+      // Remove post from current display
+      setPosts(posts.filter(post => post.id !== postId));
+
     } catch (error) {
-      console.error('Error liking post:', error);
+      console.error('Error deleting post:', error);
+      setError('Failed to delete post');
     }
+  };
+
+  const handleDeleteComment = async (commentId: string, postId: string) => {
+    if (!isAdmin) return;
+
+    try {
+      const { error } = await supabase
+        .from('comments')
+        .delete()
+        .eq('id', commentId);
+
+      if (error) throw error;
+      await fetchComments(postId);
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+      setError('Failed to delete comment');
+    }
+  };
+
+  const handleComment = async (postId: string) => {
+    if (!newComment[postId]?.trim()) return;
+
+    try {
+      const { error } = await supabase
+        .from('comments')
+        .insert([{
+          post_id: postId,
+          content: newComment[postId].trim(),
+          user_id: user?.id || null,
+          visitor_name: !user ? (visitorName.trim() || 'Anonymous') : null
+        }]);
+
+      if (error) throw error;
+
+      setNewComment(prev => ({ ...prev, [postId]: '' }));
+      await fetchComments(postId);
+    } catch (error) {
+      console.error('Error adding comment:', error);
+      setError('Failed to add comment');
+    }
+  };
+
+  const toggleComments = (postId: string) => {
+    setShowComments(prev => ({ ...prev, [postId]: !prev[postId] }));
   };
 
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-accent"></div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 pb-16 md:pb-8">
-      {/* Create Post Form */}
-      <form onSubmit={handleCreatePost} className="bg-white dark:bg-secondary rounded-lg shadow-md p-4 mb-8">
-        <textarea
-          value={newPost}
-          onChange={(e) => setNewPost(e.target.value)}
-          placeholder="What's on your mind?"
-          className="w-full p-3 rounded-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white resize-none focus:ring-2 focus:ring-primary dark:focus:ring-accent"
-          rows={3}
-        />
-        
-        {showImageInput && (
-          <div className="mt-2">
-            <input
-              type="text"
-              value={imageUrl}
-              onChange={(e) => setImageUrl(e.target.value)}
-              placeholder="Enter image URL"
-              className="w-full p-2 rounded-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-            />
-          </div>
-        )}
-
-        <div className="flex justify-between items-center mt-3">
-          <button
-            type="button"
-            onClick={() => setShowImageInput(!showImageInput)}
-            className="text-primary dark:text-accent hover:opacity-80 transition-opacity"
-          >
-            <ImageIcon size={20} />
-          </button>
-          <button
-            type="submit"
-            disabled={!newPost.trim() || loading}
-            className="px-4 py-2 bg-primary dark:bg-accent text-white rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
-          >
-            {loading ? 'Posting...' : 'Post'}
-          </button>
+    <div className="max-w-2xl mx-auto px-4 py-8">
+      {error && (
+        <div className="mb-4 p-4 bg-red-100 border-l-4 border-red-500 text-red-700">
+          <p>{error}</p>
         </div>
-      </form>
+      )}
 
-      {/* Posts List */}
       <div className="space-y-6">
         {posts.map((post) => (
-          <article key={post.id} className="bg-white dark:bg-secondary rounded-lg shadow-md overflow-hidden">
-            <div className="p-4">
-              {/* Author Info */}
-              <div className="flex items-center mb-4">
-                <img
-                  src={post.avatar_url || `https://ui-avatars.com/api/?name=${post.display_name || 'Anonymous'}`}
-                  alt={post.display_name || 'Anonymous'}
-                  className="w-10 h-10 rounded-full mr-3"
-                />
-                <div>
-                  <h3 className="font-semibold text-primary dark:text-white">
-                    {post.display_name || 'Anonymous'}
-                  </h3>
-                  <time className="text-sm text-gray-500 dark:text-gray-400">
-                    {new Date(post.created_at).toLocaleDateString()}
-                  </time>
+          <article key={post.id} className="bg-white dark:bg-accent rounded-lg shadow-lg overflow-hidden">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-accent flex items-center justify-center bg-accent text-white text-xl font-bold">
+                    {post.avatar_url ? (
+                      <img
+                        src={post.avatar_url}
+                        alt={post.display_name || 'User'}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span>{(post.display_name || 'A')[0].toUpperCase()}</span>
+                    )}
+                  </div>
+                  <div className="ml-3">
+                    <h3 className="font-semibold text-gray-900 dark:text-white">
+                      {post.display_name || 'Anonymous'}
+                    </h3>
+                    <time className="text-sm text-gray-500 dark:text-gray-400">
+                      {new Date(post.created_at).toLocaleDateString()}
+                    </time>
+                  </div>
                 </div>
+                {isAdmin && (
+                  <button
+                    onClick={() => handleDeletePost(post.id)}
+                    className="text-red-500 hover:text-red-600 transition-colors"
+                    title="Delete post"
+                  >
+                    <Trash2 size={20} />
+                  </button>
+                )}
               </div>
 
-              {/* Post Content */}
-              <p className="text-gray-800 dark:text-gray-200 mb-4">{post.content}</p>
+              <h2 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
+                {post.title}
+              </h2>
 
-              {/* Post Image */}
+              <div className="prose dark:prose-invert max-w-none mb-4">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {post.markdown_content || post.content}
+                </ReactMarkdown>
+              </div>
+
               {post.image_url && (
                 <div className="mb-4 rounded-lg overflow-hidden">
                   <img
                     src={post.image_url}
                     alt="Post content"
-                    className="w-full h-auto object-cover"
+                    className="w-full h-auto object-cover cursor-pointer transform transition-transform duration-300 hover:scale-105"
+                    onClick={() => window.open(post.image_url, '_blank')}
                     loading="lazy"
                   />
                 </div>
               )}
 
-              {/* Interaction Buttons */}
               <div className="flex items-center space-x-4 text-gray-500 dark:text-gray-400">
                 <button
                   onClick={() => handleLike(post.id)}
-                  className="flex items-center space-x-1 hover:text-red-500 transition-colors"
+                  className={`flex items-center space-x-1 transition-colors ${
+                    likedPosts.has(post.id) 
+                      ? 'text-red-500 hover:text-red-600' 
+                      : 'hover:text-accent'
+                  }`}
                 >
-                  <Heart size={20} />
+                  <Heart 
+                    size={20}
+                    fill={likedPosts.has(post.id) ? '#FF0000' : 'none'}
+                  />
                   <span>{post.likes || 0}</span>
                 </button>
-                <button className="flex items-center space-x-1 hover:text-primary dark:hover:text-accent transition-colors">
+                <button 
+                  onClick={() => toggleComments(post.id)}
+                  className="flex items-center space-x-1 hover:text-accent transition-colors"
+                >
                   <MessageCircle size={20} />
-                  <span>0</span>
+                  <span>{comments[post.id]?.length || 0}</span>
                 </button>
-                <button className="hover:text-primary dark:hover:text-accent transition-colors">
+                <button className="hover:text-accent transition-colors">
                   <Share2 size={20} />
                 </button>
               </div>
+
+              {showComments[post.id] && (
+                <div className="mt-4 space-y-4">
+                  <div className="border-t pt-4">
+                    {!user && (
+                      <input
+                        type="text"
+                        value={visitorName}
+                        onChange={(e) => setVisitorName(e.target.value)}
+                        placeholder="Your name (optional)"
+                        className="w-full px-3 py-2 mb-2 border rounded-lg dark:bg-accent-dark dark:border-gray-600 dark:text-white"
+                      />
+                    )}
+                    <div className="flex space-x-2">
+                      <input
+                        type="text"
+                        value={newComment[post.id] || ''}
+                        onChange={(e) => setNewComment(prev => ({ ...prev, [post.id]: e.target.value }))}
+                        placeholder="Write a comment..."
+                        className="flex-1 px-3 py-2 border rounded-lg dark:bg-accent-dark dark:border-gray-600 dark:text-white"
+                      />
+                      <button
+                        onClick={() => handleComment(post.id)}
+                        className="px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent-dark transition-colors"
+                      >
+                        <Send size={20} />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    {comments[post.id]?.map((comment) => (
+                      <div key={comment.id} className="flex space-x-3">
+                        <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-accent flex items-center justify-center bg-accent text-white text-sm font-bold">
+                          {comment.avatar_url ? (
+                            <img
+                              src={comment.avatar_url}
+                              alt={comment.display_name || comment.visitor_name || 'Anonymous'}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <span>
+                              {(comment.display_name || comment.visitor_name || 'A')[0].toUpperCase()}
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex-1">
+                          <div className="bg-gray-100 dark:bg-accent-dark rounded-lg p-3">
+                            <div className="flex justify-between items-start">
+                              <p className="font-medium text-sm text-gray-900 dark:text-white">
+                                {comment.display_name || comment.visitor_name || 'Anonymous'}
+                              </p>
+                              {isAdmin && (
+                                <button
+                                  onClick={() => handleDeleteComment(comment.id, post.id)}
+                                  className="text-red-500 hover:text-red-600 ml-2"
+                                  title="Delete comment"
+                                >
+                                  <Trash2 size={16} />
+                                </button>
+                              )}
+                            </div>
+                            <p className="text-gray-700 dark:text-gray-300">
+                              {comment.content}
+                            </p>
+                          </div>
+                          <p className="text-xs text-gray-500 mt-1">
+                            {new Date(comment.created_at).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </article>
         ))}
       </div>
-
-      {/* Mobile Navigation Bar with Desktop Menu Sections */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-secondary border-t border-gray-200 dark:border-gray-700 md:hidden">
-        <div className="flex justify-around items-center h-14">
-          <Link to="/" className="p-2 text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-accent">
-            <Home size={24} />
-          </Link>
-          <Link to="/projects" className="p-2 text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-accent">
-            <FolderGit2 size={24} />
-          </Link>
-          <Link to="/posts" className="p-2 text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-accent">
-            <MessageSquare size={24} />
-          </Link>
-          <Link to="/about" className="p-2 text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-accent">
-            <User size={24} />
-          </Link>
-          <Link to="/contact" className="p-2 text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-accent">
-            <Mail size={24} />
-          </Link>
-        </div>
-      </nav>
     </div>
   );
 };

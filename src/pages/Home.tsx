@@ -1,13 +1,108 @@
-import React, { useState } from 'react';
-import Scene from '../components/Scene';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ArrowRight, Send } from 'lucide-react';
-import Feed from './Feed'; // Importa el componente Feed
+import { ArrowRight, Send, Trash2 } from 'lucide-react';
+import Feed from './Feed';
+import { Scene3D } from '../components/Model3D';
+import { supabase } from '../lib/supabase';
 
 const Home = () => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('feed');
   const [guestbookMessage, setGuestbookMessage] = useState('');
+  const [visitorName, setVisitorName] = useState('');
+  const [guestbookMessages, setGuestbookMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [deletedEntries, setDeletedEntries] = useState(new Set());
+
+  useEffect(() => {
+    checkUser();
+    fetchGuestbookEntries();
+  }, []);
+
+  const checkUser = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('is_admin')
+          .eq('id', user.id)
+          .single();
+        setIsAdmin(!!profile?.is_admin);
+      }
+    } catch (error) {
+      console.error('Error checking user:', error);
+    }
+  };
+
+  const fetchGuestbookEntries = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('guestbook_entries_with_profiles')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      const filteredData = data?.filter(entry => !deletedEntries.has(entry.id)) || [];
+      setGuestbookMessages(filteredData);
+    } catch (error) {
+      console.error('Error fetching guestbook entries:', error);
+    }
+  };
+
+  const handleGuestbookSubmit = async (e) => {
+    e.preventDefault();
+    if (!guestbookMessage.trim()) return;
+
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('guestbook')
+        .insert([{
+          content: guestbookMessage.trim(),
+          user_id: user?.id || null,
+          visitor_name: !user ? visitorName.trim() || 'Anonymous' : null
+        }])
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      if (data) {
+        setGuestbookMessages(prev => [data, ...prev]);
+      }
+
+      setGuestbookMessage('');
+      setVisitorName('');
+    } catch (error) {
+      console.error('Error submitting guestbook entry:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteEntry = async (entryId) => {
+    if (!isAdmin) return;
+
+    try {
+      const { error } = await supabase
+        .from('guestbook')
+        .delete()
+        .eq('id', entryId);
+
+      if (error) throw error;
+
+      setGuestbookMessages(prev => prev.filter(msg => msg.id !== entryId));
+      setDeletedEntries(prev => new Set([...prev, entryId]));
+    } catch (error) {
+      console.error('Error deleting entry:', error);
+    }
+  };
 
   const articles = [
     {
@@ -28,78 +123,52 @@ const Home = () => {
     }
   ];
 
-  const guestbookMessages = [
-    {
-      id: 1,
-      author: "Sarah Johnson",
-      content: "Amazing portfolio! Love the clean design and smooth animations.",
-      date: "2024-03-19",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80"
-    },
-    {
-      id: 2,
-      author: "Michael Chen",
-      content: "Your work is inspiring! Looking forward to seeing more projects.",
-      date: "2024-03-18",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80"
-    }
-  ];
-
-  const handleGuestbookSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setGuestbookMessage('');
-  };
-
   return (
-    <div className="bg-[#DAF1DE] dark:bg-[#0B2B26] min-h-screen">
+    <div className="bg-background dark:bg-background-dark min-h-screen">
       {/* 3D Scene */}
-      <div className="w-full h-[400px] relative">
-        <Scene />
-      </div>
+      <Scene3D />
 
-      {/* Main Title */}
-      <div className="max-w-4xl mx-auto px-4 py-4">
-        <div className="bg-[#8EB69B] dark:bg-[#163832] p-6 rounded-lg shadow-lg">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold mb-4 text-[#0B2B26] dark:text-[#DAF1DE]">
-              {t('fullName')}
-            </h1>
-            <p className="text-xl text-[#235347] dark:text-[#8EB69B]">
-              {t('role')}
-            </p>
-          </div>
+      {/* Hero Section */}
+      <div className="max-w-4xl mx-auto px-4 py-8 md:py-16">
+        <div className="bg-secondary dark:bg-primary p-6 md:p-8 rounded-lg shadow-lg text-center">
+          <h1 className="text-3xl md:text-4xl font-bold mb-3 md:mb-4 text-primary-light dark:text-accent-light">
+            {t('fullName')}
+          </h1>
+          <p className="text-lg md:text-xl text-primary-light dark:text-accent-light">
+            {t('role')}
+          </p>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="max-w-2xl mx-auto px-4 mt-8">
-        <div className="flex space-x-4 mb-6">
+      <div className="max-w-2xl mx-auto px-4">
+        <div className="flex space-x-2 md:space-x-4 mb-6 overflow-x-auto pb-2 scrollbar-hide">
           <button
             onClick={() => setActiveTab('feed')}
-            className={`px-4 py-2 rounded-lg transition-colors ${
+            className={`px-3 md:px-4 py-2 rounded-lg transition-colors whitespace-nowrap ${
               activeTab === 'feed'
-                ? 'bg-accent text-white'
-                : 'text-primary/80 dark:text-text-dark/80 hover:bg-accent/20'
+                ? 'bg-accent text-primary-light'
+                : 'text-primary dark:text-accent-light hover:bg-accent/20'
             }`}
           >
             {t('feed')}
           </button>
           <button
             onClick={() => setActiveTab('content')}
-            className={`px-4 py-2 rounded-lg transition-colors ${
+            className={`px-3 md:px-4 py-2 rounded-lg transition-colors whitespace-nowrap ${
               activeTab === 'content'
-                ? 'bg-accent text-white'
-                : 'text-primary/80 dark:text-text-dark/80 hover:bg-accent/20'
+                ? 'bg-accent text-primary-light'
+                : 'text-primary dark:text-accent-light hover:bg-accent/20'
             }`}
           >
             {t('content')}
           </button>
           <button
             onClick={() => setActiveTab('guestbook')}
-            className={`px-4 py-2 rounded-lg transition-colors ${
+            className={`px-3 md:px-4 py-2 rounded-lg transition-colors whitespace-nowrap ${
               activeTab === 'guestbook'
-                ? 'bg-accent text-white'
-                : 'text-primary/80 dark:text-text-dark/80 hover:bg-accent/20'
+                ? 'bg-accent text-primary-light'
+                : 'text-primary dark:text-accent-light hover:bg-accent/20'
             }`}
           >
             {t('guestbook')}
@@ -107,34 +176,34 @@ const Home = () => {
         </div>
 
         {/* Feed Content */}
-        {activeTab === 'feed' && <Feed />} {/* Usa el componente Feed aquí */}
+        {activeTab === 'feed' && <Feed />}
 
         {/* Content Section */}
         {activeTab === 'content' && (
-          <div className="space-y-8">
+          <div className="space-y-6 md:space-y-8">
             {articles.map((article) => (
-              <article key={article.id} className="bg-white dark:bg-secondary rounded-xl shadow-md overflow-hidden">
+              <article key={article.id} className="bg-secondary-light dark:bg-primary rounded-lg shadow-md overflow-hidden">
                 <div className="md:flex">
-                  <div className="md:w-1/3">
+                  <div className="md:w-1/3 h-48 md:h-auto">
                     <img 
                       src={article.image} 
                       alt={article.title}
-                      className="h-48 w-full object-cover md:h-full"
+                      className="h-full w-full object-cover"
                     />
                   </div>
-                  <div className="p-6 md:w-2/3">
-                    <div className="flex items-center text-sm text-primary/60 dark:text-text-dark/60 mb-2">
+                  <div className="p-4 md:p-6 md:w-2/3">
+                    <div className="flex items-center text-sm text-primary dark:text-accent-light mb-2">
                       <span>{new Date(article.date).toLocaleDateString()}</span>
                       <span className="mx-2">•</span>
                       <span>{article.readTime}</span>
                     </div>
-                    <h2 className="text-xl font-semibold text-primary dark:text-text-dark mb-2">
+                    <h2 className="text-xl font-semibold text-primary dark:text-accent-light mb-2">
                       {article.title}
                     </h2>
-                    <p className="text-primary/80 dark:text-text-dark/80 mb-4">
+                    <p className="text-primary/80 dark:text-accent-light/80 mb-4 line-clamp-2 md:line-clamp-none">
                       {article.description}
                     </p>
-                    <button className="flex items-center text-accent hover:text-accent/80 transition-colors">
+                    <button className="flex items-center text-accent hover:text-accent-dark transition-colors">
                       <span className="mr-2">Read More</span>
                       <ArrowRight size={16} />
                     </button>
@@ -148,45 +217,66 @@ const Home = () => {
         {/* Guestbook Section */}
         {activeTab === 'guestbook' && (
           <div>
-            <div className="bg-white dark:bg-secondary rounded-xl shadow-md p-6 mb-8">
+            <div className="bg-secondary-light dark:bg-primary rounded-lg shadow-md p-4 md:p-6 mb-6 md:mb-8">
               <form onSubmit={handleGuestbookSubmit} className="space-y-4">
+                {!user && (
+                  <input
+                    type="text"
+                    value={visitorName}
+                    onChange={(e) => setVisitorName(e.target.value)}
+                    placeholder="Your name (optional)"
+                    className="w-full p-3 rounded-lg border border-primary/20 dark:border-accent-light/20 bg-background dark:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-accent"
+                  />
+                )}
                 <textarea
                   value={guestbookMessage}
                   onChange={(e) => setGuestbookMessage(e.target.value)}
                   placeholder={t('writeMessage')}
-                  className="w-full h-24 p-3 rounded-lg border border-primary/20 dark:border-accent/20 bg-background dark:bg-secondary focus:outline-none focus:ring-2 focus:ring-accent"
+                  className="w-full h-24 p-3 rounded-lg border border-primary/20 dark:border-accent-light/20 bg-background dark:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-accent resize-none"
                 />
                 <div className="flex justify-end">
                   <button
                     type="submit"
-                    className="flex items-center space-x-2 px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent/80 transition-colors"
+                    disabled={loading || !guestbookMessage.trim()}
+                    className="flex items-center space-x-2 px-4 py-2 bg-accent text-primary-light rounded-lg hover:bg-accent-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <span>{t('signGuestbook')}</span>
+                    <span>{loading ? 'Signing...' : t('signGuestbook')}</span>
                     <Send size={16} />
                   </button>
                 </div>
               </form>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4 md:space-y-6">
               {guestbookMessages.map((msg) => (
-                <div key={msg.id} className="bg-white dark:bg-secondary rounded-xl shadow-md p-6">
+                <div key={msg.id} className="bg-secondary-light dark:bg-primary rounded-lg shadow-md p-4 md:p-6">
                   <div className="flex items-start space-x-4">
                     <img
-                      src={msg.avatar}
-                      alt={msg.author}
+                      src={msg.avatar_url || `https://ui-avatars.com/api/?name=${msg.display_name || 'Anonymous'}&background=5c4742&color=fff`}
+                      alt={msg.display_name || 'Anonymous'}
                       className="w-10 h-10 rounded-full"
                     />
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-semibold text-primary dark:text-text-dark">
-                          {msg.author}
+                        <h3 className="font-semibold text-primary dark:text-accent-light truncate">
+                          {msg.display_name || msg.visitor_name || 'Anonymous'}
                         </h3>
-                        <span className="text-sm text-primary/60 dark:text-text-dark/60">
-                          {new Date(msg.date).toLocaleDateString()}
-                        </span>
+                        <div className="flex items-center space-x-4">
+                          <span className="text-sm text-primary/60 dark:text-accent-light/60">
+                            {new Date(msg.created_at).toLocaleDateString()}
+                          </span>
+                          {isAdmin && (
+                            <button
+                              onClick={() => handleDeleteEntry(msg.id)}
+                              className="text-red-500 hover:text-red-600 transition-colors"
+                              title="Delete entry"
+                            >
+                              <Trash2 size={16} />
+                            </button>
+                          )}
+                        </div>
                       </div>
-                      <p className="text-primary/80 dark:text-text-dark/80">
+                      <p className="text-primary/80 dark:text-accent-light/80 break-words">
                         {msg.content}
                       </p>
                     </div>

@@ -30,7 +30,10 @@ const resources = {
       'email': 'Email',
       'password': 'Password',
       'login': 'Login',
-      'loading': 'Loading...'
+      'loading': 'Loading...',
+      'yourName': 'Your name',
+      'yourAlias': 'Your alias (optional)',
+      'anonymous': 'Anonymous'
     }
   },
   es: {
@@ -61,7 +64,10 @@ const resources = {
       'email': 'Correo',
       'password': 'Contraseña',
       'login': 'Iniciar Sesión',
-      'loading': 'Cargando...'
+      'loading': 'Cargando...',
+      'yourName': 'Tu nombre',
+      'yourAlias': 'Tu alias (opcional)',
+      'anonymous': 'Anónimo'
     }
   }
 };
