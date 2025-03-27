@@ -1,6 +1,6 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { useGLTF } from '@react-three/drei';
+import { useGLTF, useAnimations } from '@react-three/drei';
 import * as THREE from 'three';
 import { GLTF } from 'three-stdlib';
 
@@ -15,19 +15,40 @@ interface SceneProps {
 
 export default function Scene({ position = [0, 0, 0] }: SceneProps) {
   const group = useRef<THREE.Group>();
-  const { scene } = useGLTF('https://threejs.org/examples/models/gltf/LittlestTokyo.glb') as GLTFResult;
+  const mixer = useRef<THREE.AnimationMixer>();
+  const clock = useRef<THREE.Clock>(new THREE.Clock());
 
-  // Smooth rotation animation
-  useFrame((state) => {
+  const { scene, animations } = useGLTF('https://threejs.org/examples/models/gltf/LittlestTokyo.glb') as GLTFResult & {
+    animations: THREE.AnimationClip[];
+  };
+
+  useEffect(() => {
+    if (group.current && animations.length) {
+      mixer.current = new THREE.AnimationMixer(scene);
+      const action = mixer.current.clipAction(animations[0]);
+      action.play();
+    }
+  }, [animations]);
+
+  useFrame(() => {
+    if (mixer.current) {
+      const delta = clock.current.getDelta();
+      mixer.current.update(delta);
+    }
     if (group.current) {
-      group.current.rotation.y = Math.sin(state.clock.elapsedTime / 2) * 0.3;
+      group.current.rotation.y = Math.sin(clock.current.getElapsedTime() / 2) * 0.3;
     }
   });
 
   return (
-    <group ref={group} position={position} dispose={null}>
-      <primitive object={scene} scale={0.01} position={[0, -2, 0]} />
-    </group>
+      <group ref={group} position={position} dispose={null}>
+        <primitive
+            object={scene}
+            scale={0.008}
+            position={[0, -1.5, 0]} // Moved up to -1.5 from -3
+            rotation={[0, Math.PI / 4, 0]}
+        />
+      </group>
   );
 }
 
