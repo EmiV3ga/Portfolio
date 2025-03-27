@@ -24,7 +24,7 @@ const resources = {
       'fullName': 'Emiliano Vega',
       'role': 'Digital Craftsman (Developer / Pentester / Designer)',
       'intro': 'Hello! I\'m a full-stack developer and cybersecurity specialist based in Argentina, with a soft spot for turning coffee into clean code and secure systems.',
-      'workDescription': 'Emiliano is a freelance full-stack developer and ethical hacker who builds digital solutions armored with security and sprinkled with design thinking. From patching vulnerabilities to crafting intuitive interfaces, he bridges tech and creativity. Off-duty, he\'s either behind a camera, modeling 3D assets, or nerding out over the latest infosec trends.',
+      'workDescription': 'I\'m  Emiliano, a full-stack freelance developer and ethical hacker who builds digital solutions armored with security and sprinkled with design thinking. From patching vulnerabilities to crafting intuitive interfaces, he bridges tech and creativity. Off-duty, he\'s either behind a camera, modeling 3D assets, or nerding out over the latest infosec trends.',
       'iLove': 'Swimming, Basketball, Video Games, Music, Machine Learning',
 
       // Guestbook
@@ -131,9 +131,9 @@ const resources = {
 
       // Profile & Bio
       'fullName': 'Emiliano Vega',
-      'role': 'Artesano Digital (Desarrollador / Pentester / Diseñador)',
+      'role': 'Digital Craftsman (Desarrollador / Pentester / Diseñador)',
       'intro': '¡Hola! Soy un desarrollador full-stack y especialista en ciberseguridad basado en Argentina, con debilidad por convertir café en código limpio y sistemas seguros.',
-      'workDescription': 'Emiliano es un desarrollador full-stack freelance y hacker ético que construye soluciones digitales blindadas con seguridad y salpicadas de pensamiento de diseño. Desde parchear vulnerabilidades hasta crear interfaces intuitivas, une la tecnología y la creatividad. Fuera de servicio, está detrás de una cámara, modelando assets 3D o fascinado con las últimas tendencias de seguridad informática.',
+      'workDescription': 'Soy Emiliano  un desarrollador full-stack freelance y hacker ético que construye soluciones digitales blindadas con seguridad y salpicadas de pensamiento de diseño. Desde parchear vulnerabilidades hasta crear interfaces intuitivas, une la tecnología y la creatividad. Fuera de servicio, está detrás de una cámara, modelando assets 3D o fascinado con las últimas tendencias de seguridad informática.',
       'iLove': 'Natación, Básquet, Videojuegos, Música, Aprendizaje Automático',
 
       // Guestbook
