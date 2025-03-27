@@ -53,7 +53,7 @@ const About = () => {
 
           {/* Work Section */}
           <div className="bg-white/80 dark:bg-accent/10 p-8 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold mb-4 text-accent dark:text-primary">{t('work')}</h2>
+            <h2 className="text-2xl font-bold mb-4 text-accent dark:text-primary">{t('about Me')}</h2>
             <p className="text-lg leading-relaxed text-accent/90 dark:text-primary/90">
               {t('workDescription')}
             </p>
