@@ -16,7 +16,7 @@ const Footer = () => {
               <Github size={20} />
             </a>
             <a
-              href="https://linkedin.com"
+              href="www.linkedin.com/in/emiliano1"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-600 hover:text-accent dark:text-gray-300 dark:hover:text-white transition-colors"
@@ -24,7 +24,7 @@ const Footer = () => {
               <Linkedin size={20} />
             </a>
             <a
-              href="https://twitter.com"
+              href="https://x.com/EmiV3ga1"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-600 hover:text-accent dark:text-gray-300 dark:hover:text-white transition-colors"

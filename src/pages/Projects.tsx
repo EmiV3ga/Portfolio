@@ -55,11 +55,11 @@ const initialProjects: Project[] = [
   {
     id: "5",
     title: "Backend Project",
-    description: "A robust backend system demonstrating API development and database management skills. Includes authentication and data processing features.",
+    description: "Desarrollé un backend robusto usando Supabase (PostgreSQL + Node.js), implementando autenticación JWT, políticas de seguridad RLS, y APIs RESTful para gestión de datos. Optimicé consultas SQL y procesamiento en tiempo real con WebSockets.",
     image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80",
-    technologies: ["Node.js", "Express", "MongoDB"],
+    technologies: ["Node.js", "JWt", "WebSockets", "PostgresSQl"],
     github: "https://github.com/EmiV3ga",
-    demo: "#"
+    demo: "https://emilianodev.netlify.app/"
   }
 ];
 

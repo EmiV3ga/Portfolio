@@ -99,9 +99,10 @@ const About = () => {
             <h2 className="text-2xl font-bold mb-6 text-accent dark:text-primary">{t('bio')}</h2>
             <div className="space-y-4">
               {[
-                { year: '2023', event: 'Started freelancing' },
-                { year: '2020', event: 'Completed Master\'s in Computer Science' },
-                { year: '2016', event: 'Started working as a developer' }
+                { year: '2023', event: 'Freelance Fullstack', icon: '🚀' },
+                { year: '2022', event: 'Ingeniería en Sistemas - UNICEN', icon: '🎓' }
+                { year: '2017', event: 'Ciberseguridad (Autodidacta)', icon: '🔐' },
+                { year: '2016', event: 'First job : App Delivery con GPS (Android/Java)', icon: '📱'}
               ].map((item, index) => (
                 <div key={index} className="flex">
                   <span className="w-24 font-bold text-accent dark:text-primary">{item.year}</span>
@@ -123,7 +124,7 @@ const About = () => {
           <div className="flex justify-center space-x-6">
             {[
               { icon: Github, label: 'GitHub', href: 'https://github.com/EmiV3ga' },
-              { icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com' },
+              { icon: Linkedin, label: 'LinkedIn', href: 'www.linkedin.com/in/emiliano1' },
               { icon: Mail, label: 'Email', href: 'mailto:emiliano.dimartino.vega@gmail.com' }
             ].map((social, index) => (
               <a
