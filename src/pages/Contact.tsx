@@ -1,16 +1,19 @@
 import React from 'react';
 import { Mail, Linkedin, Github, Phone } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const Contact = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen bg-background dark:bg-background-dark flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-4xl">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-primary dark:text-accent-light mb-2">
-            Get in Touch
+            {t('getInTouch')}
           </h1>
           <p className="text-secondary dark:text-secondary-light">
-            Let's work together on something amazing
+            {t('letWork')}
           </p>
         </div>
 
@@ -27,7 +30,7 @@ const Contact = () => {
               <div>
                 <h3 className="text-lg font-semibold text-accent dark:text-accent-light">Email</h3>
                 <p className="text-secondary dark:text-secondary-light">
-                  Send me a message
+                  {t('sendMessage')}
                 </p>
               </div>
             </div>
@@ -47,7 +50,7 @@ const Contact = () => {
               <div>
                 <h3 className="text-lg font-semibold text-accent dark:text-accent-light">GitHub</h3>
                 <p className="text-secondary dark:text-secondary-light">
-                  Check out my repositories
+                  {t('checkRepositories')}
                 </p>
               </div>
             </div>
@@ -67,7 +70,7 @@ const Contact = () => {
               <div>
                 <h3 className="text-lg font-semibold text-accent dark:text-accent-light">LinkedIn</h3>
                 <p className="text-secondary dark:text-secondary-light">
-                  Connect with me professionally
+                  {t('connectProfessionally')}
                 </p>
               </div>
             </div>
@@ -85,7 +88,7 @@ const Contact = () => {
               <div>
                 <h3 className="text-lg font-semibold text-accent dark:text-accent-light">Phone</h3>
                 <p className="text-secondary dark:text-secondary-light">
-                  Let's have a conversation
+                  {t('letTalk')}
                 </p>
               </div>
             </div>

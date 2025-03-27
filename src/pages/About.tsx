@@ -1,8 +1,11 @@
 import React from 'react';
 import { Github, Linkedin, Mail } from 'lucide-react';
 import { Scene3D } from '../components/Model3D';
+import { useTranslation } from 'react-i18next';
 
 const About = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen bg-background dark:bg-background-dark">
       {/* 3D Scene */}
@@ -13,10 +16,10 @@ const About = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl font-bold text-accent dark:text-primary mb-4">
-              About Me
+              {t('fullName')}
             </h1>
             <p className="text-xl text-accent/80 dark:text-primary/80">
-              Crafting digital experiences with code and creativity
+              {t('role')}
             </p>
           </div>
         </div>
@@ -36,35 +39,33 @@ const About = () => {
             <div className="md:w-2/3 text-center md:text-left">
               <div className="mb-4">
                 <h1 className="text-4xl font-bold text-accent dark:text-primary">
-                  Emiliano Vega
+                  {t('fullName')}
                 </h1>
                 <p className="text-xl text-accent/80 dark:text-primary/80">
-                  Digital Craftsman ( Developer / Designer )
+                  {t('role')}
                 </p>
               </div>
               <p className="text-lg text-accent/90 dark:text-primary/90">
-                Hello, I'm a full-stack developer based in Argentina!
+                {t('intro')}
               </p>
             </div>
           </div>
 
-          {/* Bio Section */}
+          {/* Work Section */}
           <div className="bg-white/80 dark:bg-accent/10 p-8 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold mb-4 text-accent dark:text-primary">Work</h2>
+            <h2 className="text-2xl font-bold mb-4 text-accent dark:text-primary">{t('work')}</h2>
             <p className="text-lg leading-relaxed text-accent/90 dark:text-primary/90">
-              Emiliano is a freelance and a full-stack developer with a passion for building digital services/stuff he wants. 
-              He has a knack for all things launching products, from planning and designing all the way to solving real-life 
-              problems with code. When not online, he loves hanging out with his camera.
+              {t('workDescription')}
             </p>
           </div>
 
           {/* Skills Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {['Frontend', 'Backend', 'Tools'].map((category, index) => (
+            {[t('frontend'), t('backend'), t('tools')].map((category, index) => (
               <div key={index} className="bg-white/80 dark:bg-accent/10 p-6 rounded-lg shadow-lg">
                 <h3 className="text-xl font-semibold mb-4 text-accent dark:text-primary">{category}</h3>
                 <ul className="space-y-2 text-accent/90 dark:text-primary/90">
-                  {category === 'Frontend' && [
+                  {category === t('frontend') && [
                     'React',
                     'TypeScript',
                     'Tailwind CSS',
@@ -72,7 +73,7 @@ const About = () => {
                   ].map((skill, i) => (
                     <li key={i}>{skill}</li>
                   ))}
-                  {category === 'Backend' && [
+                  {category === t('backend') && [
                     'Node.js',
                     'Express',
                     'PostgreSQL',
@@ -80,7 +81,7 @@ const About = () => {
                   ].map((skill, i) => (
                     <li key={i}>{skill}</li>
                   ))}
-                  {category === 'Tools' && [
+                  {category === t('tools') && [
                     'Git',
                     'Docker',
                     'AWS',
@@ -95,7 +96,7 @@ const About = () => {
 
           {/* Bio Timeline */}
           <div className="bg-white/80 dark:bg-accent/10 p-8 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold mb-6 text-accent dark:text-primary">Bio</h2>
+            <h2 className="text-2xl font-bold mb-6 text-accent dark:text-primary">{t('bio')}</h2>
             <div className="space-y-4">
               {[
                 { year: '2023', event: 'Started freelancing' },
@@ -114,7 +115,7 @@ const About = () => {
           <div className="bg-white/80 dark:bg-accent/10 p-8 rounded-lg shadow-lg">
             <h2 className="text-2xl font-bold mb-6 text-accent dark:text-primary">I ♥</h2>
             <p className="text-lg text-accent/90 dark:text-primary/90">
-              Art, Music, Drawing, Playing Drums, Photography, Machine Learning
+              {t('iLove')}
             </p>
           </div>
 

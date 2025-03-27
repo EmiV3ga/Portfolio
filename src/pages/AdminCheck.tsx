@@ -6,6 +6,7 @@ const AdminCheck = () => {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [email, setEmail] = useState<string>('');
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,8 +22,8 @@ const AdminCheck = () => {
       }
 
       setEmail(user.email || '');
+      console.log('Checking admin status for user ID:', user.id);
       
-      // Get the profile with admin status
       const { data: profile, error } = await supabase
         .from('profiles')
         .select('is_admin')
@@ -31,12 +32,18 @@ const AdminCheck = () => {
 
       if (error) {
         console.error('Error checking admin status:', error);
+        setError('An error occurred while checking admin status');
+        setIsAdmin(false);
+      } else if (!profile) {
+        setError('No profile found. Please ensure your profile is properly set up.');
         setIsAdmin(false);
       } else {
-        setIsAdmin(!!profile?.is_admin);
+        setIsAdmin(!!profile.is_admin);
+        setError(null);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error:', error);
+      setError(error.message || 'An error occurred while checking admin status');
       setIsAdmin(false);
     } finally {
       setLoading(false);
@@ -67,6 +74,12 @@ const AdminCheck = () => {
             {isAdmin ? 'Administrator' : 'Not an Administrator'}
           </p>
         </div>
+
+        {error && (
+          <div className="mt-4 p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+            <p className="text-red-800 dark:text-red-200">{error}</p>
+          </div>
+        )}
 
         {!isAdmin && (
           <div className="mt-4 p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">

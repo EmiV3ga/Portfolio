@@ -24,7 +24,8 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
         return;
       }
 
-      // Get the profile with admin status
+      console.log('Checking admin status for user ID:', user.id);
+
       const { data: profile, error } = await supabase
         .from('profiles')
         .select('is_admin')

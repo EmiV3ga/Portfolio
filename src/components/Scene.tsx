@@ -10,7 +10,7 @@ type GLTFResult = GLTF & {
 };
 
 export default function Scene({ ...props }) {
-  const group = useRef<THREE.Group | null>(null);
+  const group = useRef<THREE.Group>();
   const { scene } = useGLTF('https://threejs.org/examples/models/gltf/LittlestTokyo.glb') as GLTFResult;
 
   // Smooth rotation animation

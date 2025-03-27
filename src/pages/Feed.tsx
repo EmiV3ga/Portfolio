@@ -26,7 +26,8 @@ interface Comment {
   avatar_url?: string;
 }
 
-const DELETED_POSTS_KEY = 'deleted_posts_v2'; // New versioned key for deleted posts
+const DELETED_POSTS_KEY = 'deleted_posts_v2';
+const DELETED_COMMENTS_KEY = 'deleted_comments_v2';
 
 const Feed = () => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -40,11 +41,12 @@ const Feed = () => {
   const [showComments, setShowComments] = useState<Record<string, boolean>>({});
   const [user, setUser] = useState<any>(null);
   const [deletedPosts, setDeletedPosts] = useState<Set<string>>(new Set());
+  const [deletedComments, setDeletedComments] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     checkUser();
     checkAdminStatus();
-    loadDeletedPosts();
+    loadDeletedItems();
     loadLikedPosts();
   }, []);
 
@@ -54,17 +56,29 @@ const Feed = () => {
     }
   }, [deletedPosts]);
 
-  const loadDeletedPosts = () => {
+  useEffect(() => {
+    if (deletedComments.size > 0) {
+      localStorage.setItem(DELETED_COMMENTS_KEY, JSON.stringify(Array.from(deletedComments)));
+    }
+  }, [deletedComments]);
+
+  const loadDeletedItems = () => {
     try {
       const deletedPostsStr = localStorage.getItem(DELETED_POSTS_KEY);
       if (deletedPostsStr) {
         const deletedPostsArray = JSON.parse(deletedPostsStr);
         setDeletedPosts(new Set(deletedPostsArray));
       }
+
+      const deletedCommentsStr = localStorage.getItem(DELETED_COMMENTS_KEY);
+      if (deletedCommentsStr) {
+        const deletedCommentsArray = JSON.parse(deletedCommentsStr);
+        setDeletedComments(new Set(deletedCommentsArray));
+      }
     } catch (error) {
-      console.error('Error loading deleted posts:', error);
-      // If there's an error, clear the corrupted data
+      console.error('Error loading deleted items:', error);
       localStorage.removeItem(DELETED_POSTS_KEY);
+      localStorage.removeItem(DELETED_COMMENTS_KEY);
     }
   };
 
@@ -138,7 +152,10 @@ const Feed = () => {
         .order('created_at', { ascending: true });
 
       if (error) throw error;
-      setComments(prev => ({ ...prev, [postId]: data || [] }));
+
+      // Filter out deleted comments
+      const filteredComments = data?.filter(comment => !deletedComments.has(comment.id)) || [];
+      setComments(prev => ({ ...prev, [postId]: filteredComments }));
     } catch (error) {
       console.error('Error fetching comments:', error);
     }
@@ -184,14 +201,14 @@ const Feed = () => {
 
       if (error) throw error;
 
-      // Update local state
+      // Update local state and localStorage
       const newDeletedPosts = new Set(deletedPosts);
       newDeletedPosts.add(postId);
       setDeletedPosts(newDeletedPosts);
+      localStorage.setItem(DELETED_POSTS_KEY, JSON.stringify(Array.from(newDeletedPosts)));
 
       // Remove post from current display
       setPosts(posts.filter(post => post.id !== postId));
-
     } catch (error) {
       console.error('Error deleting post:', error);
       setError('Failed to delete post');
@@ -208,7 +225,18 @@ const Feed = () => {
         .eq('id', commentId);
 
       if (error) throw error;
-      await fetchComments(postId);
+
+      // Update local state and localStorage
+      const newDeletedComments = new Set(deletedComments);
+      newDeletedComments.add(commentId);
+      setDeletedComments(newDeletedComments);
+      localStorage.setItem(DELETED_COMMENTS_KEY, JSON.stringify(Array.from(newDeletedComments)));
+
+      // Update comments in the UI
+      setComments(prev => ({
+        ...prev,
+        [postId]: prev[postId].filter(comment => comment.id !== commentId)
+      }));
     } catch (error) {
       console.error('Error deleting comment:', error);
       setError('Failed to delete comment');
