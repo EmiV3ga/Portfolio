@@ -3,50 +3,54 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        mono: ['SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo', 'Courier', 'monospace'],
+        sans: ['SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo', 'Courier', 'monospace'],
+      },
       colors: {
         primary: {
-          DEFAULT: '#8d7b6d', // Darker warm gray for better contrast
-          light: '#a5978b',   // Medium warm gray
-          dark: '#6d5d4f',    // Deep warm gray
+          DEFAULT: '#8d7b6d',
+          light: '#a5978b',
+          dark: '#6d5d4f',
         },
         secondary: {
-          DEFAULT: '#9c8878', // Warm taupe
-          light: '#b6a494',   // Light taupe
-          dark: '#826c5c',    // Dark taupe
+          DEFAULT: '#9c8878',
+          light: '#b6a494',
+          dark: '#826c5c',
         },
         accent: {
-          DEFAULT: '#5c4742', // Liver (unchanged)
-          light: '#776058',   // Lighter liver
-          dark: '#412e2a',    // Darker liver
+          DEFAULT: '#5c4742',
+          light: '#776058',
+          dark: '#412e2a',
         },
         background: {
-          DEFAULT: '#f8f5f2', // Lighter background for better contrast
-          dark: '#5a2a27',    // Caput mortuum (unchanged)
+          DEFAULT: '#f8f5f2',
+          dark: '#5a2a27',
         },
         form: {
-          DEFAULT: '#ffffff', // Pure white for form backgrounds
-          border: '#d1c7bd', // Warm gray for borders
-          focus: '#8d7b6d',  // Darker warm gray for focus states
+          DEFAULT: '#ffffff',
+          border: '#d1c7bd',
+          focus: '#8d7b6d',
         },
         card: {
-          DEFAULT: '#ffffff', // Pure white for card backgrounds
-          hover: '#f8f5f2',  // Light warm gray for hover states
+          DEFAULT: '#ffffff',
+          hover: '#f8f5f2',
         },
         text: {
-          DEFAULT: '#2d2420', // Very dark warm gray for primary text
-          secondary: '#5c4742', // Liver for secondary text
-          light: '#8d7b6d',    // Medium warm gray for tertiary text
+          DEFAULT: '#2d2420',
+          secondary: '#5c4742',
+          light: '#8d7b6d',
         },
         button: {
           primary: {
-            DEFAULT: '#5c4742', // Liver
-            hover: '#412e2a',   // Darker liver
-            text: '#ffffff',    // White text
+            DEFAULT: '#5c4742',
+            hover: '#412e2a',
+            text: '#ffffff',
           },
           secondary: {
-            DEFAULT: '#9c8878', // Warm taupe
-            hover: '#826c5c',   // Darker taupe
-            text: '#ffffff',    // White text
+            DEFAULT: '#9c8878',
+            hover: '#826c5c',
+            text: '#ffffff',
           }
         }
       },
@@ -55,6 +59,7 @@ export default {
           css: {
             maxWidth: '65ch',
             color: '#2d2420',
+            fontFamily: 'SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace',
             a: {
               color: '#5c4742',
               '&:hover': {
@@ -63,18 +68,22 @@ export default {
             },
             h1: {
               color: '#2d2420',
+              fontFamily: 'SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace',
             },
             h2: {
               color: '#2d2420',
+              fontFamily: 'SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace',
             },
             h3: {
               color: '#2d2420',
+              fontFamily: 'SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace',
             },
             strong: {
               color: '#2d2420',
             },
             code: {
               color: '#5c4742',
+              fontFamily: 'SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace',
             },
             figcaption: {
               color: '#8d7b6d',

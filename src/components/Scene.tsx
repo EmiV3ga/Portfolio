@@ -9,7 +9,11 @@ type GLTFResult = GLTF & {
   materials: Record<string, THREE.Material>;
 };
 
-export default function Scene({ ...props }) {
+interface SceneProps {
+  position?: [number, number, number];
+}
+
+export default function Scene({ position = [0, 0, 0] }: SceneProps) {
   const group = useRef<THREE.Group>();
   const { scene } = useGLTF('https://threejs.org/examples/models/gltf/LittlestTokyo.glb') as GLTFResult;
 
@@ -21,7 +25,7 @@ export default function Scene({ ...props }) {
   });
 
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group ref={group} position={position} dispose={null}>
       <primitive object={scene} scale={0.01} position={[0, -2, 0]} />
     </group>
   );

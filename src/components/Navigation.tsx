@@ -52,8 +52,16 @@ const Navigation = () => {
   };
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    navigate('/');
+    try {
+      // Clear all Supabase-related storage before signing out
+      localStorage.removeItem('supabase.auth.token');
+      localStorage.removeItem('sb-' + supabase.supabaseUrl.split('//')[1] + '-auth-token');
+      
+      await supabase.auth.signOut();
+      navigate('/');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
   };
 
   const navItems = [

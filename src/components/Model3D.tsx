@@ -1,16 +1,63 @@
-import { Suspense } from 'react';
+import { Suspense, useState, useRef, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import Scene from './Scene';
 
 export function Scene3D() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState({ x: 0, y: 0, z: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [startPos, setStartPos] = useState({ x: 0, y: 0 });
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setStartPos({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+
+    const deltaX = (e.clientX - startPos.x) * 0.01;
+    const deltaY = (e.clientY - startPos.y) * 0.01;
+
+    setPosition(prev => ({
+      x: prev.x + deltaX,
+      y: prev.y - deltaY, // Invert Y for intuitive movement
+      z: prev.z
+    }));
+
+    setStartPos({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleMouseLeave = () => setIsDragging(false);
+    container.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      container.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, []);
+
   return (
-    <div className="w-full h-[400px]">
+    <div 
+      ref={containerRef}
+      className="w-full h-[400px] cursor-move"
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+    >
       <Canvas
         shadows
         dpr={[1, 2]}
         camera={{ 
-          position: [5, 2, 8],
+          position: [5 + position.x, 2 + position.y, 8 + position.z],
           fov: 60,
           near: 0.1,
           far: 1000
@@ -34,7 +81,7 @@ export function Scene3D() {
           castShadow
         />
         <Suspense fallback={null}>
-          <Scene />
+          <Scene position={[position.x, position.y, position.z]} />
           <OrbitControls
             enablePan={true}
             enableZoom={true}

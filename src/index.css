@@ -3,8 +3,13 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
+  }
+  
   body {
     @apply bg-background dark:bg-background-dark text-text dark:text-white;
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
   }
 }
 

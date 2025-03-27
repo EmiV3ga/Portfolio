@@ -58,7 +58,7 @@ const Contact = () => {
 
           {/* LinkedIn Card */}
           <a 
-            href="https://linkedin.com/in/emiliano-vega"
+            href="https://www.linkedin.com/in/emiliano1"
             target="_blank"
             rel="noopener noreferrer"
             className="bg-white dark:bg-accent rounded-lg p-6 shadow-lg transform transition-all duration-300 hover:scale-[1.02] cursor-pointer"
@@ -78,7 +78,9 @@ const Contact = () => {
 
           {/* Phone Card */}
           <a 
-            href="tel:+542494525601"
+            href="https://wa.me/2494525601"
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-white dark:bg-accent rounded-lg p-6 shadow-lg transform transition-all duration-300 hover:scale-[1.02] cursor-pointer"
           >
             <div className="flex items-center space-x-4">
@@ -86,7 +88,7 @@ const Contact = () => {
                 <Phone className="text-accent dark:text-accent-light h-8 w-8" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-accent dark:text-accent-light">Phone</h3>
+                <h3 className="text-lg font-semibold text-accent dark:text-accent-light">WhatsApp</h3>
                 <p className="text-secondary dark:text-secondary-light">
                   {t('letTalk')}
                 </p>

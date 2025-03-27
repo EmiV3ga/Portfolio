@@ -40,3 +40,22 @@ export const supabase = createClient(supabaseUrl, supabaseKey, {
     }
   }
 });
+
+// Initialize auth state handling
+supabase.auth.onAuthStateChange((event, session) => {
+  if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
+    // Clear any stored tokens
+    localStorage.removeItem('supabase.auth.token');
+    localStorage.removeItem('sb-' + supabaseUrl.split('//')[1] + '-auth-token');
+  }
+});
+
+// Handle initial session
+supabase.auth.getSession().catch((error) => {
+  console.error("Error getting session:", error);
+  // Clear potentially corrupted session data
+  supabase.auth.signOut().then(() => {
+    localStorage.clear(); // Clear all Supabase-related data
+    window.location.href = '/login';
+  });
+});

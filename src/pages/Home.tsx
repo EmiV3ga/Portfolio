@@ -4,9 +4,11 @@ import { ArrowRight, Send, Trash2 } from 'lucide-react';
 import Feed from './Feed';
 import { Scene3D } from '../components/Model3D';
 import { supabase } from '../lib/supabase';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('feed');
   const [guestbookMessage, setGuestbookMessage] = useState('');
   const [visitorName, setVisitorName] = useState('');
@@ -102,6 +104,10 @@ const Home = () => {
     } catch (error) {
       console.error('Error deleting entry:', error);
     }
+  };
+
+  const handleReadMore = () => {
+    navigate('/projects');
   };
 
   const articles = [
@@ -203,7 +209,10 @@ const Home = () => {
                     <p className="text-primary/80 dark:text-accent-light/80 mb-4 line-clamp-2 md:line-clamp-none">
                       {article.description}
                     </p>
-                    <button className="flex items-center text-accent hover:text-accent-dark transition-colors">
+                    <button 
+                      onClick={handleReadMore}
+                      className="flex items-center text-accent hover:text-accent-dark transition-colors"
+                    >
                       <span className="mr-2">Read More</span>
                       <ArrowRight size={16} />
                     </button>
