@@ -9,48 +9,48 @@ export default {
       },
       colors: {
         primary: {
-          DEFAULT: '#8d7b6d',
-          light: '#a5978b',
-          dark: '#6d5d4f',
+          DEFAULT: '#424242',
+          light: '#F1F1F1',
+          dark: '#121212',
         },
         secondary: {
-          DEFAULT: '#9c8878',
-          light: '#b6a494',
-          dark: '#826c5c',
+          DEFAULT: '#00695C',
+          light: '#D7CCC8',
+          dark: '#4E2C2C',
         },
         accent: {
-          DEFAULT: '#5c4742',
-          light: '#776058',
-          dark: '#412e2a',
+          DEFAULT: '#29434E',
+          light: '#F1F1F1',
+          dark: '#333333',
         },
         background: {
-          DEFAULT: '#f8f5f2',
-          dark: '#5a2a27',
+          DEFAULT: '#E0E0E0',
+          dark: '#121212',
         },
         form: {
-          DEFAULT: '#ffffff',
-          border: '#d1c7bd',
-          focus: '#8d7b6d',
+          DEFAULT: '#FFFFFF',
+          border: '#424242',
+          focus: '#00695C',
         },
         card: {
-          DEFAULT: '#ffffff',
-          hover: '#f8f5f2',
+          DEFAULT: '#FFFFFF',
+          hover: '#F5F5F5',
         },
         text: {
-          DEFAULT: '#2d2420',
-          secondary: '#5c4742',
-          light: '#8d7b6d',
+          DEFAULT: '#424242',
+          secondary: '#00695C',
+          light: '#F1F1F1',
         },
         button: {
           primary: {
-            DEFAULT: '#5c4742',
-            hover: '#412e2a',
-            text: '#ffffff',
+            DEFAULT: '#FFFFFF',
+            hover: '#F5F5F5',
+            text: '#333333',
           },
           secondary: {
-            DEFAULT: '#9c8878',
-            hover: '#826c5c',
-            text: '#ffffff',
+            DEFAULT: '#333333',
+            hover: '#29434E',
+            text: '#FFFFFF',
           }
         }
       },
@@ -58,35 +58,35 @@ export default {
         DEFAULT: {
           css: {
             maxWidth: '65ch',
-            color: '#2d2420',
+            color: '#424242',
             fontFamily: 'SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace',
             a: {
-              color: '#5c4742',
+              color: '#00695C',
               '&:hover': {
-                color: '#412e2a',
+                color: '#004D40',
               },
             },
             h1: {
-              color: '#2d2420',
+              color: '#424242',
               fontFamily: 'SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace',
             },
             h2: {
-              color: '#2d2420',
+              color: '#424242',
               fontFamily: 'SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace',
             },
             h3: {
-              color: '#2d2420',
+              color: '#424242',
               fontFamily: 'SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace',
             },
             strong: {
-              color: '#2d2420',
+              color: '#424242',
             },
             code: {
-              color: '#5c4742',
+              color: '#00695C',
               fontFamily: 'SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace',
             },
             figcaption: {
-              color: '#8d7b6d',
+              color: '#F1F1F1',
             },
           },
         },

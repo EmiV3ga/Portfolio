@@ -123,11 +123,9 @@ const Feed = () => {
 
       if (error) throw error;
 
-      // Filter out deleted posts
       const filteredPosts = data?.filter(post => !deletedPosts.has(post.id)) || [];
       setPosts(filteredPosts);
 
-      // Fetch comments for all posts
       filteredPosts?.forEach(post => {
         fetchComments(post.id);
       });
@@ -141,7 +139,7 @@ const Feed = () => {
 
   useEffect(() => {
     fetchPosts();
-  }, [deletedPosts]); // Re-fetch when deletedPosts changes
+  }, [deletedPosts]);
 
   const fetchComments = async (postId: string) => {
     try {
@@ -153,7 +151,6 @@ const Feed = () => {
 
       if (error) throw error;
 
-      // Filter out deleted comments
       const filteredComments = data?.filter(comment => !deletedComments.has(comment.id)) || [];
       setComments(prev => ({ ...prev, [postId]: filteredComments }));
     } catch (error) {
@@ -201,13 +198,11 @@ const Feed = () => {
 
       if (error) throw error;
 
-      // Update local state and localStorage
       const newDeletedPosts = new Set(deletedPosts);
       newDeletedPosts.add(postId);
       setDeletedPosts(newDeletedPosts);
       localStorage.setItem(DELETED_POSTS_KEY, JSON.stringify(Array.from(newDeletedPosts)));
 
-      // Remove post from current display
       setPosts(posts.filter(post => post.id !== postId));
     } catch (error) {
       console.error('Error deleting post:', error);
@@ -226,13 +221,11 @@ const Feed = () => {
 
       if (error) throw error;
 
-      // Update local state and localStorage
       const newDeletedComments = new Set(deletedComments);
       newDeletedComments.add(commentId);
       setDeletedComments(newDeletedComments);
       localStorage.setItem(DELETED_COMMENTS_KEY, JSON.stringify(Array.from(newDeletedComments)));
 
-      // Update comments in the UI
       setComments(prev => ({
         ...prev,
         [postId]: prev[postId].filter(comment => comment.id !== commentId)
@@ -288,7 +281,7 @@ const Feed = () => {
 
       <div className="space-y-6">
         {posts.map((post) => (
-          <article key={post.id} className="bg-white dark:bg-accent rounded-lg shadow-lg overflow-hidden">
+          <article key={post.id} className="bg-white dark:bg-accent/20 rounded-lg shadow-lg overflow-hidden">
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
@@ -327,7 +320,7 @@ const Feed = () => {
                 {post.title}
               </h2>
 
-              <div className="prose dark:prose-invert max-w-none mb-4">
+              <div className="prose dark:prose-invert max-w-none mb-4 dark:text-gray-100">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {post.markdown_content || post.content}
                 </ReactMarkdown>
@@ -345,13 +338,13 @@ const Feed = () => {
                 </div>
               )}
 
-              <div className="flex items-center space-x-4 text-gray-500 dark:text-gray-400">
+              <div className="flex items-center space-x-4 text-gray-500 dark:text-gray-300">
                 <button
                   onClick={() => handleLike(post.id)}
                   className={`flex items-center space-x-1 transition-colors ${
                     likedPosts.has(post.id) 
                       ? 'text-red-500 hover:text-red-600' 
-                      : 'hover:text-accent'
+                      : 'hover:text-accent dark:hover:text-white'
                   }`}
                 >
                   <Heart 
@@ -362,26 +355,26 @@ const Feed = () => {
                 </button>
                 <button 
                   onClick={() => toggleComments(post.id)}
-                  className="flex items-center space-x-1 hover:text-accent transition-colors"
+                  className="flex items-center space-x-1 hover:text-accent dark:hover:text-white transition-colors"
                 >
                   <MessageCircle size={20} />
                   <span>{comments[post.id]?.length || 0}</span>
                 </button>
-                <button className="hover:text-accent transition-colors">
+                <button className="hover:text-accent dark:hover:text-white transition-colors">
                   <Share2 size={20} />
                 </button>
               </div>
 
               {showComments[post.id] && (
                 <div className="mt-4 space-y-4">
-                  <div className="border-t pt-4">
+                  <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
                     {!user && (
                       <input
                         type="text"
                         value={visitorName}
                         onChange={(e) => setVisitorName(e.target.value)}
                         placeholder="Your name (optional)"
-                        className="w-full px-3 py-2 mb-2 border rounded-lg dark:bg-accent-dark dark:border-gray-600 dark:text-white"
+                        className="w-full px-3 py-2 mb-2 border rounded-lg dark:bg-accent-dark dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                       />
                     )}
                     <div className="flex space-x-2">
@@ -390,7 +383,7 @@ const Feed = () => {
                         value={newComment[post.id] || ''}
                         onChange={(e) => setNewComment(prev => ({ ...prev, [post.id]: e.target.value }))}
                         placeholder="Write a comment..."
-                        className="flex-1 px-3 py-2 border rounded-lg dark:bg-accent-dark dark:border-gray-600 dark:text-white"
+                        className="flex-1 px-3 py-2 border rounded-lg dark:bg-accent-dark dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                       />
                       <button
                         onClick={() => handleComment(post.id)}
@@ -433,11 +426,11 @@ const Feed = () => {
                                 </button>
                               )}
                             </div>
-                            <p className="text-gray-700 dark:text-gray-300">
+                            <p className="text-gray-700 dark:text-gray-200">
                               {comment.content}
                             </p>
                           </div>
-                          <p className="text-xs text-gray-500 mt-1">
+                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                             {new Date(comment.created_at).toLocaleDateString()}
                           </p>
                         </div>
