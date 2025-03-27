@@ -100,18 +100,20 @@ const About = () => {
             <div className="space-y-4">
               {[
                 { year: '2023', event: 'Freelance Fullstack', icon: '🚀' },
-                { year: '2022', event: 'Ingeniería en Sistemas - UNICEN', icon: '🎓' }
+                { year: '2022', event: 'Ingeniería en Sistemas - UNICEN', icon: '🎓' },
                 { year: '2017', event: 'Ciberseguridad (Autodidacta)', icon: '🔐' },
-                { year: '2016', event: 'First job : App Delivery con GPS (Android/Java)', icon: '📱'}
+                { year: '2016', event: 'First job: App Delivery con GPS (Android/Java)', icon: '📱' }
               ].map((item, index) => (
-                <div key={index} className="flex">
-                  <span className="w-24 font-bold text-accent dark:text-primary">{item.year}</span>
-                  <span className="text-accent/90 dark:text-primary/90">{item.event}</span>
-                </div>
+                  <div key={index} className="flex">
+                    <span className="w-24 font-bold text-accent dark:text-primary">{item.year}</span>
+                    <span className="text-accent/90 dark:text-primary/90">
+          <span className="mr-2">{item.icon}</span>
+                      {item.event}
+        </span>
+                  </div>
               ))}
             </div>
           </div>
-
           {/* I ♥ Section */}
           <div className="bg-white/80 dark:bg-accent/10 p-8 rounded-lg shadow-lg">
             <h2 className="text-2xl font-bold mb-6 text-accent dark:text-primary">I ♥</h2>
