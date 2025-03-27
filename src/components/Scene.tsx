@@ -1,39 +1,35 @@
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
+import { GLTF } from 'three-stdlib';
 
-export default function Scene({ position = [0, 0, 0] }) {
-  const group = useRef();
-  const trainRef = useRef();
-  const { scene } = useGLTF('tu_modelo.glb');
+type GLTFResult = GLTF & {
+  nodes: Record<string, THREE.Mesh>;
+  materials: Record<string, THREE.Material>;
+};
 
-  // 1. Ruta del tren (ajusta estos valores)
-  const curve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0, 0, -5),
-    new THREE.Vector3(5, 0, 0),
-    new THREE.Vector3(0, 0, 5),
-    new THREE.Vector3(-5, 0, 0)
-  ], true);
+interface SceneProps {
+  position?: [number, number, number];
+}
 
-  // 2. Animación mínima
+export default function Scene({ position = [0, 0, 0] }: SceneProps) {
+  const group = useRef<THREE.Group>();
+  const { scene } = useGLTF('https://threejs.org/examples/models/gltf/LittlestTokyo.glb') as GLTFResult;
+
+  // Smooth rotation animation
   useFrame((state) => {
-    if (!trainRef.current) return;
-    const t = (state.clock.elapsedTime % 10) / 10;
-    trainRef.current.position.copy(curve.getPointAt(t));
-    trainRef.current.lookAt(curve.getPointAt((t + 0.01) % 1));
+    if (group.current) {
+      group.current.rotation.y = Math.sin(state.clock.elapsedTime / 2) * 0.3;
+    }
   });
 
-  // 3. Buscar el tren automáticamente
-  useEffect(() => {
-    scene.traverse((child) => {
-      if (child.name.includes('Tren')) trainRef.current = child;
-    });
-  }, [scene]);
-
   return (
-      <group ref={group} position={position}>
-        <primitive object={scene} scale={0.01} position={[0, -2, 0]} />
-      </group>
+    <group ref={group} position={position} dispose={null}>
+      <primitive object={scene} scale={0.01} position={[0, -2, 0]} />
+    </group>
   );
 }
+
+// Preload the model
+useGLTF.preload('https://threejs.org/examples/models/gltf/LittlestTokyo.glb');
