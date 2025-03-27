@@ -16,7 +16,7 @@ const initialProjects: Project[] = [
   {
     id: "1",
     title: "Pentestia",
-    description: "A comprehensive penetration testing automation platform. Features advanced security testing tools and reporting capabilities.",
+    description: "A comprehensive penetration testing automation platform. Features advanced security testing tools and reporting capabilities.(En Desarrollo)",
     image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80",
     technologies: ["Python", "Security Tools", "Automation"],
     github: "https://github.com/EmiV3ga/pentest-automation",
