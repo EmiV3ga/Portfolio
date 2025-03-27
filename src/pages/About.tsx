@@ -31,7 +31,7 @@ const About = () => {
           <div className="flex flex-col md:flex-row items-center gap-8">
             <div className="md:w-1/3">
               <img
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80"
+                src="../Perfil.jpg"
                 alt="Profile"
                 className="w-48 h-48 rounded-full border-4 border-accent dark:border-primary"
               />
